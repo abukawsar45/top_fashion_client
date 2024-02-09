@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../shared/Navbar/Navbar';
 import TopNavbar from '../shared/Navbar/TopNavbar';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 const Main = () => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
     <div className=' sm:mx-1 md:mx-2 lg:mx-4 2xl:mx-auto max-w-[1800px]  '>
-      <TopNavbar/>
+      <TopNavbar />
       <Navbar />
       <div className=' min-h-[1800px] pt-8 '>
         <Outlet />

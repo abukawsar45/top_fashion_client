@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ActiveLink from '../../utilities/ActiveLink';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const Navbar = () => {
   const [showNavLinks, setShowNavLinks] = useState(false);
   // console.log(showNavLinks)
-  const user = false;
+    const {
+      signUpWithEmail,
+      loginWithGoogle,
+      updateUserProfile,
+      user,
+      setUser,
+      logout,
+    } = useContext(AuthContext);
 
   const navData = (
     <>
-      <li
-        onClick={() => setShowNavLinks(!showNavLinks)}
-      >
+      <li onClick={() => setShowNavLinks(!showNavLinks)}>
         <ActiveLink to='/'>
           <a>Work</a>
         </ActiveLink>
@@ -42,30 +48,29 @@ const Navbar = () => {
           <a>Blog</a>
         </ActiveLink>
       </li>
-      {!user && <>
-      
-      <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/login'>
-          <a>Login</a>
-        </ActiveLink>
-      </li>
-      <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/register'>
-          <a>Register</a>
-        </ActiveLink>
-      </li>
-      </> }
-      {/* <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/'>
-          <a className='bg-lime-500 px-2 font-bold md:px-4 lg:px-5 py-1 md:py-2 lg:py-3  rounded-full'>
-            Request a quote
-          </a>
-        </ActiveLink>
-      </li> */}
+      {user && (
+        <li onClick={() => setShowNavLinks(!showNavLinks)}>
+          <button onClick={() => logout()}>Logout</button>
+        </li>
+      )}
+      {!user && (
+        <>
+          <li onClick={() => setShowNavLinks(!showNavLinks)}>
+            <ActiveLink to='/login'>
+              <a>Login</a>
+            </ActiveLink>
+          </li>
+          <li onClick={() => setShowNavLinks(!showNavLinks)}>
+            <ActiveLink to='/register'>
+              <a>Register</a>
+            </ActiveLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
-    <div className=' sticky top-0 z-20  py-1 md:py-4 transition-colors duration-300 ease-in bg-transparent  backdrop-blur'>
+    <div  data-aos='fade-up' className='bg-red-900 bg-opacity-10 sticky top-0 z-20  py-1 md:py-4 transition-colors duration-300 ease-in bg-transparent  backdrop-blur'>
       <div
         data-aos='fade-down '
         className='w-full bg-blend-multiply flex justify-between items-center bg-base-100 text-font'

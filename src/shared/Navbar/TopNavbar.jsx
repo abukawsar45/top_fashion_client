@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 const TopNavbar = () => {
   return (
-    <div className='bg-blue-500 '>
+    <div  data-aos='fade-down' className='bg-blue-500 '>
       <div className='hidden w-[95%] mx-auto lg:flex justify-between'>
         {/* Contact section */}
         <div className='flex space-x-5 py-2'>

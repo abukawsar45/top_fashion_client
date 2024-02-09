@@ -1,10 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { BsFacebook, BsTwitter, BsLinkedin, BsInstagram } from 'react-icons/bs';
-import { BiLogoGmail, BiSolidLocationPlus } from 'react-icons/bi';
 import { AuthContext } from '../providers/AuthProvider';
 import { Link } from 'react-router-dom';
+import useTitles from '../shared/Navbar/useTitles';
+import SocialLoginWithGoogle from '../shared/SocialLogin/SocialLoginWithGoogle';
+import SideCard from '../shared/SignInOrUp/SideCard';
 
 const Register = () => {
+
+  useTitles('| Register');
+
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const { signUpWithEmail, loginWithGoogle, updateUserProfile, user, setUser } =
@@ -46,62 +50,9 @@ const Register = () => {
     <div className='mx-auto transition-all duration-150'>
       <div className='flex  flex-col-reverse lg:flex-row justify-center gap-4'>
         {/* left part */}
-        <div className='bg-black flex flex-col justify-between'>
-          <div className='grid grid-rows-2 py-4 px-2 md:px-12 text-white '>
-            <div className='my-4 md:my-8 lg:my-12'>
-              <h3 className='text-xl md:text-2xl lg:text-3xl'>
-                Welcome to our <span>website</span>
-              </h3>
-              <p className='my-2 text-2xl md:text-4xl text-blue-600 font-bold '>
-                Register Now
-              </p>
-              <div className='mt-4 md:mt-8 lg:mt-16'>
-                <p className='mt-2 md:mt-6 lg:mt-10 flex justify-start items-center gap-2 md:gap-5'>
-                  <span>
-                    <BiLogoGmail className='text-xl text-blue-500' />
-                  </span>{' '}
-                  ourteam@gmail.com
-                </p>
-
-                <p className='my-2 flex justify-start items-center gap-2 md:gap-5'>
-                  <span>
-                    <BiSolidLocationPlus className='text-xl text-blue-500' />
-                  </span>{' '}
-                  New Elephant Road, Dhaka 1216, Bangladesh.
-                </p>
-              </div>
-            </div>
-            {/* social link */}
-            <div className='mb-0 mt-auto  flex justify-start items-end gap-5'>
-              <Link>
-                {' '}
-                <span>
-                  <BsFacebook className='text-2xl hover:text-blue-500' />
-                </span>{' '}
-              </Link>
-              <Link>
-                {' '}
-                <span>
-                  <BsTwitter className='text-2xl hover:text-blue-500' />
-                </span>{' '}
-              </Link>
-              <Link>
-                {' '}
-                <span>
-                  <BsInstagram className='text-2xl hover:text-blue-500' />
-                </span>{' '}
-              </Link>
-              <Link>
-                {' '}
-                <span>
-                  <BsLinkedin className='text-2xl hover:text-blue-500' />
-                </span>{' '}
-              </Link>
-            </div>
-          </div>
-        </div>
+        <SideCard title='Register Now' direction='fade-left' />
         {/* input form */}
-        <div className='bg-white px-10 '>
+        <div className='bg-white px-10 ' data-aos='fade-right'>
           <form onSubmit={handleRegister} className=''>
             <div className='text-left my-2 md:mt-8 lg:mt-12'>
               <label htmlFor='name' className='px-2'>
@@ -161,8 +112,7 @@ const Register = () => {
             </div>
             <div className='text-left my-2 md:mt-8 lg:mt-12'>
               <label htmlFor='photo' className='px-2'>
-                Photo URL{' '}
-                <small>(optional)</small>
+                Photo URL <small>(optional)</small>
               </label>
               <br />
               <input
@@ -171,15 +121,14 @@ const Register = () => {
                 placeholder='********'
                 name='photo'
                 className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96'
-                required
               />
             </div>
             <div>
               <input
                 type='submit'
-                value='login'
+                value='Register'
                 required
-                className='rounded-lg bg-gray-400 mt-4 md:mt-6 text-blue-900 hover:bg-white px-8 md:px-12 py-1 md:py-2 lg:py-3 uppercase border-2 font-bold border-sky-600 '
+                className='rounded-lg bg-blue-500 mt-4 md:mt-6 text-gray-800 hover:text-blue-500 hover:bg-white px-8 md:px-12 py-1 md:py-2 lg:py-3 uppercase border-2 font-bold border-sky-600 cursor-pointer'
               />
             </div>
           </form>
@@ -188,14 +137,20 @@ const Register = () => {
           <div>
             <p>
               <small>
-                No Accout? &#160;
+                Already have an account? &#160;
                 <span>
                   <Link className='text-blue-500' to='/login'>
-                    Create a new
+                    Please Login
                   </Link>
                 </span>
               </small>
             </p>
+          </div>
+          <div className='flex my-6 flex-col w-full border-opacity-50'>
+            <div className=' border-b-2 my-2 border-t-blue-500'></div>
+            <button>
+              <SocialLoginWithGoogle />
+            </button>
           </div>
         </div>
       </div>
