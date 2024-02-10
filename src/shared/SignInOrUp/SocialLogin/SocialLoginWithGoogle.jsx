@@ -2,7 +2,8 @@ import { useContext } from 'react';
 
 import { FcGoogle } from 'react-icons/fc';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../providers/AuthProvider';
+import { AuthContext } from '../../../providers/AuthProvider';
+
 
 
 

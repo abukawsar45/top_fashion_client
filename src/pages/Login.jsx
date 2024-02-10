@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { BsFacebook, BsTwitter, BsLinkedin, BsInstagram } from 'react-icons/bs';
-import { BiLogoGmail, BiSolidLocationPlus } from 'react-icons/bi';
-import { AuthContext } from '../providers/AuthProvider';
 import useTitles from '../shared/Navbar/useTitles';
-import SocialLoginWithGoogle from '../shared/SocialLogin/SocialLoginWithGoogle';
 import SideCard from '../shared/SignInOrUp/SideCard';
+import SocialLoginWithGoogle from '../shared/SignInOrUp/SocialLogin/SocialLoginWithGoogle';
+import { AuthContext } from '../providers/AuthProvider';
+
+
 
 const Login = () => {
 
@@ -91,7 +91,6 @@ const Login = () => {
             </div>
           </form>
           <div className='w-full mt-8 border border-gray-200'></div>
-
           <div>
             <p>
               <small>

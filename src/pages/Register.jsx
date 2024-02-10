@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../providers/AuthProvider';
 import { Link } from 'react-router-dom';
 import useTitles from '../shared/Navbar/useTitles';
-import SocialLoginWithGoogle from '../shared/SocialLogin/SocialLoginWithGoogle';
 import SideCard from '../shared/SignInOrUp/SideCard';
+import SocialLoginWithGoogle from '../shared/SignInOrUp/SocialLogin/SocialLoginWithGoogle';
 
 const Register = () => {
 
