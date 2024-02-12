@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../shared/Navbar/Navbar';
+import Footer from '../shared/Footer/Footer';
 import TopNavbar from '../shared/Navbar/TopNavbar';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -18,9 +19,7 @@ const Main = () => {
       <div className=' min-h-[90vh] pt-8 '>
         <Outlet />
       </div>
-      <div className='my-2'>
-        <h1 className=''>hiii</h1>
-      </div>
+     <Footer/>
     </div>
   );
 };
