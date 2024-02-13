@@ -26,7 +26,10 @@ export const router = createBrowserRouter([
       {
         path: 'ProductDetails/:id',
         element: <ProductDetails />,
-        loader: ({ params }) => fetch('/productsData.json'),
+        loader: ({ params }) =>
+          fetch(
+            `https://top-fashion-server.vercel.app/productsdata/${params.id}`
+          ),
       },
     ],
   },

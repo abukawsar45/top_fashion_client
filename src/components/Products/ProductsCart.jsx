@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 
 const ProductsCart = ({ product }) => {
   const data = product;
-  console.log(data);
+  // console.log(data);
   const {
     categroy,
-    id,
+    _id,
     img,
     name,
     price,
@@ -26,7 +26,7 @@ const ProductsCart = ({ product }) => {
         <img
           src={img}
           alt='product-image'
-          className='ease-in duration-300 group-hover:scale-110 transition rounded-lg  h-40 
+          className='ease-in duration-300 group-hover:scale-125 transition rounded-lg  h-40 
               w-full  object-cover mx-auto'
         />
       </div>
@@ -39,7 +39,7 @@ const ProductsCart = ({ product }) => {
         <div className='w-full flex justify-end'>
           <div className='flex w-full gap-2 justify-between items-center'>
             <div>
-              <p>{price - price + 1} $</p>
+              <p>{price} $</p>
               <p>{ratings}</p>
             </div>
 
@@ -53,7 +53,7 @@ const ProductsCart = ({ product }) => {
             </div>
             <div>
               <Link
-                to={`ProductDetails/${id}`}
+                to={`ProductDetails/${_id}`}
                 className='transform ease-in-out duration-100 hover:bg-violet-500 font-semibold px-3 py-2 rounded border border-green-400 text-sm text-violet-600 hover:text-white'
               >
                 More info
