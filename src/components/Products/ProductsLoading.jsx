@@ -7,16 +7,29 @@ export default function ProductsLoading() {
   const skeletons = Array.from({ length: dataLength }, (_, index) => (
     <div key={index}>
       <div>
-        <Skeleton height={300} />
+        <Skeleton height={160} />
       </div>
-      <div>
-        <Skeleton height={25} width={300} />
+
+      <div className='my-2 p-4 flex flex-col justify-between gap-2 mb-3 '>
+        <div>
+          <Skeleton height={25} width={180} />
+          <Skeleton height={20} width={50} />
+        </div>
+        <div className='flex justify-between items-center flex-1 gap-2  mb-3'>
+          <div className='mt-3 flex flex-col'>
+            <Skeleton height={20} width={45} />
+            <Skeleton height={20} width={30} />
+          </div>
+          <Skeleton height={25} width={30} />
+          <Skeleton height={25} width={50} />
+        </div>
       </div>
     </div>
   ));
+  console.log({ skeletons });
 
   return (
-    <SkeletonTheme baseColor='#2a406b' highlightColor='#5c5c5c'>
+    <SkeletonTheme baseColor='#2a404d' highlightColor='#5c5c5c'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5 lg:gap-8'>
         {skeletons}
       </div>
