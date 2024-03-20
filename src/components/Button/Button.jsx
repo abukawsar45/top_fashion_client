@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-export default function Button({ children, dataBSPlacement, onClick, shape, text, title }) {
+const Button = ({ children, dataBSPlacement, onClick, shape, text, title }) =>{
   return (
     <button
       onClick={onClick}
@@ -16,3 +16,4 @@ export default function Button({ children, dataBSPlacement, onClick, shape, text
     </button>
   );
 }
+export default Button;

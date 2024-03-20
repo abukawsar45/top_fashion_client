@@ -1,13 +1,13 @@
-import React from 'react';
-import { GrCart   } from 'react-icons/gr';
+import React, { useEffect, useState } from 'react';
+import { GrCart } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
-import Button from '../ui/Button';
-
+import Button from '../Button/Button';
+import Modal from '../Modal/Modal';
 
 const ProductsCart = ({ product }) => {
-  const data = product;
-  // console.log(data);
+  let [isOpen, setIsOpen] = useState(false);
+
   const {
     categroy,
     _id,
@@ -16,32 +16,42 @@ const ProductsCart = ({ product }) => {
     price,
     quantity,
     ratings,
+    description,
     ratingsCount,
     seller,
     shippings,
     stock,
-  } = product;
+  } = product || {};
 
-  const handleModal = () => {
-    console.log('modal_')
-  }
+  const openModal = () => {
+    setIsOpen(true);
+    console.log({ product });
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   return (
-    <div className='my-2 bg-white shadow-xl shadow-indigo-200 hover:shadow-lime-500 flex flex-col w-full h-full rounded-xl duration-100 group'>
+    <div className='my-2 w-full h-full bg-white shadow-xl flex flex-col rounded-xl shadow-indigo-200 duration-100 group hover:shadow-lime-500'>
       <div className='relative text-sm flex gap-2 items-center my-4 overflow-hidden  '>
         <img
           src={img}
           alt='product-image'
-          className='ease-in duration-300 group-hover:scale-125 transition rounded-lg  h-40 
-              w-full  object-cover mx-auto'
+          className='mx-auto h-40 
+              w-full ease-in duration-300 object-cover rounded-lg transition group-hover:scale-125'
         />
-       
-        <Button onClick={handleModal} dataBSPlacement='right' title='Quick view' shape='rounded'>
+
+        <Button
+          onClick={openModal}
+          dataBSPlacement='right'
+          title='Quick view'
+          shape='rounded'
+        >
           <FaEye />
         </Button>
       </div>
 
-      <div className='p-4 flex flex-col justify-between flex-1 gap-2  mb-3'>
+      <div className='mb-3 p-4 flex flex-col justify-between flex-1 gap-2'>
         <div>
           <h4 className='font-semibold '>{name}</h4>
           <p className='text-gray-500 italic '>by {seller}</p>
@@ -66,6 +76,11 @@ const ProductsCart = ({ product }) => {
           </div>
         </div>
       </div>
+      {isOpen && (
+        <Modal isOpen={isOpen} closeModal={closeModal} title={name}>
+          <div className='my-4'>{description}</div>
+        </Modal>
+      )}
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ProductsCart from './ProductsCart';
+import ProductsCart from '../ProductsCart/ProductsCart';
+import ProductsLoading from '../ProductsLoading/ProductsLoading';
 import useFetch from '../../hooks/useFetch';
-import ProductsLoading from './ProductsLoading';
 
 const Products = () => {
-  const { data: productsData, loading } = useFetch('/allProducts');
+    const { data: productsData, loading } = useFetch('/allProducts');
 
   return (
     <div>
@@ -20,5 +20,6 @@ const Products = () => {
     </div>
   );
 };
+
 
 export default Products;
