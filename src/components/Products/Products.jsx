@@ -4,7 +4,7 @@ import ProductsLoading from '../ProductsLoading/ProductsLoading';
 import useFetch from '../../hooks/useFetch';
 
 const Products = () => {
-    const { data: productsData, loading } = useFetch('/allProducts');
+  const { data: productsData, loading } = useFetch('/allProducts');
 
   return (
     <div>
@@ -20,6 +20,5 @@ const Products = () => {
     </div>
   );
 };
-
 
 export default Products;

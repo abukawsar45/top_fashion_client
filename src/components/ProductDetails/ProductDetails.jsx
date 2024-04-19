@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, useLoaderData, useParams } from 'react-router-dom';
+import Button from '../Button/Button';
+import Div from '../Div/Div';
 
 const ProductDetails = () => {
 
@@ -12,69 +14,73 @@ const ProductDetails = () => {
 
   const job = {};
 
+  
   const {
-    _id,
-    name,
     category,
+    _id,
+    shipping,
     img,
+    name,
     price,
-    quantity,
     ratings,
+    description,
     ratingsCount,
     seller,
-    spipping,
-    stock
-  } = {};
+    shippings,
+    stock,
+  } = productData || {};
 
-  const {
-    
-    companyLogo,
-    jobTitle,
-    companyName,
-    remoteOrOnsite,
-    location,
-    typeOfJob,
-    salary,
-    jobDescription,
-    jobResponsibility,
-    educationalRequirements,
-    experiences,
-    contactInformation,
-  } = job;
 
   return (
-    <div className='flex flex-col md:flex-row justify-center border-2 border-lime-100 bg-slate-50 w-auto gap-2 md:gap-6 p-2 md:p-6 md:mx-36 rounded-sm'>
-      <img src={companyLogo} className='w-48 h-48  rounded-md me-6 ' alt='' />
-      <div className='flex flex-col md:flex-row justify-between items-center w-4/6'>
-        <div className='flex flex-col justify-center w-4/6 '>
-          <h2 className='text-2xl font-semibold'>{jobTitle} </h2>
-          <h4 className='text-xl text-red-500'>{companyName} </h4>
-          <div className='flex gap-9'>
-            <button className='my-btn-one'>{remoteOrOnsite} </button>
-            <button className='my-btn-one'>{typeOfJob} </button>
-          </div>
-          <div className='flex gap-6'>
-            <p className='flex items-center gap-1 text-neutral-600'>
-              <span>
-              assistant
-              </span>
-              {location}{' '}
-            </p>
-            <p className='flex items-center gap-1 text-neutral-600'>
-              <span>
-                assistant2
-              </span>{' '}
-              Salary: {salary}{' '}
+    <div >
+      {/* <div className='my-4 grid md:grid-cols-1 lg:grid-cols-2'> */}
+      <div className=' flex md:flex-col lg:flex-row justify-between gap-2'>
+        <div className='lg:basis-1/2'>
+          <div className='relative'>
+            <img
+              src={img}
+              alt={img}
+              className='my-2 p-2 rounded-lg w-full h-96 object-cover '
+            />
+            <p className='absolute m-2 left-4 top-4 text-white'>
+              {stock > 0 ? (
+                <span className=' px-3 py-1 font-bold bg-green-500 rounded'>
+                  Stock In
+                </span>
+              ) : (
+                <span className=' px-3 py-1 font-bold bg-red-600 rounded'>
+                  Stock Out
+                </span>
+              )}
             </p>
           </div>
         </div>
-        <div className='flex justify-end'>
-          <Link to={`/jobdetails/${_id}`}>
-            {' '}
-            <button className='button-linear2 mt-4 md:mt-6 mb-3 mb:mb-0'>
-              View Details
-            </button>
-          </Link>
+        <div className='lg:basis-1/2 flex flex-col justify-between'>
+          <div className=''>
+            <h4 className='md:mt-4 lg:mt-0 md:mb-2 lg:text-2xl font-semibold'>
+              {name}
+            </h4>
+            <div className='grid grid-cols-2'>
+              <Div
+                label='Price'
+                value={price + '$'}
+                bg='bg-gray-100'
+                textSize={'md:text-xl'}
+              />
+              <Div label='Stock' value={stock + 'pcs'} />
+            </div>
+            <div className='grid grid-cols-2'>
+              <Div label='Category :' value={category} />
+              <Div label='Ratings :' value={ratings} />
+            </div>
+            {/* <p>{description.substring(0, 130)}......</p> */}
+            <p className='mb-2'>
+              { description }
+            </p>
+          </div>
+          <div>
+            <Button width={'w-full'}>Add to Cart</Button>
+          </div>
         </div>
       </div>
     </div>
