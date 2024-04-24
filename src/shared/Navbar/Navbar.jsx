@@ -1,6 +1,9 @@
 import React, { useContext, useState } from 'react';
 import ActiveLink from '../../utilities/ActiveLink';
 import { AuthContext } from '../../providers/AuthProvider';
+import { Link } from 'react-router-dom';
+import tf from '../../assets/tf.png'
+import './Navbar.css';
 
 const Navbar = () => {
   const [showNavLinks, setShowNavLinks] = useState(false);
@@ -70,7 +73,10 @@ const Navbar = () => {
     </>
   );
   return (
-    <div  data-aos='fade-up' className='bg-red-900 bg-opacity-10 sticky top-0 z-20  py-1 md:py-4 transition-colors duration-300 ease-in bg-transparent  backdrop-blur'>
+    <div
+      data-aos='fade-up'
+      className='bg-red-900 bg-opacity-10 sticky top-0 z-20  py-1 md:py-4 transition-colors duration-300 ease-in bg-transparent  backdrop-blur'
+    >
       <div
         data-aos='fade-down '
         className='w-full bg-blend-multiply flex justify-between items-center bg-base-100 text-font'
@@ -103,9 +109,10 @@ const Navbar = () => {
           </ul>
         </div>
         <div className=''>
-          <a href='/' className=' text-2xl text-red-500'>
-            Strong Support 24
-          </a>
+          <Link href='/' className=' text-2xl flex'>
+            <img src={tf} alt='logo' className='w-8' />
+            <span className='monoton-regular'>Top {' '} Fashion</span>
+          </Link>
         </div>
         <div className=' hidden lg:flex'>
           <ul className='flex flex-col lg:flex-row gap-8 px-1'>{navData}</ul>

@@ -67,7 +67,7 @@ const ProductDetails = () => {
                 bg='bg-gray-100'
                 textSize={'md:text-xl'}
               />
-              <Div label='Stock' value={stock + 'pcs'} />
+              <Div label='Stock :' value={stock? (stock + 'pcs'): 0} />
             </div>
             <div className='grid grid-cols-2'>
               <Div label='Category :' value={category} />
@@ -79,7 +79,7 @@ const ProductDetails = () => {
             </p>
           </div>
           <div>
-            <Button width={'w-full'}>Add to Cart</Button>
+            <Button disabled={!stock}  width={'w-full'}>Add to Cart</Button>
           </div>
         </div>
       </div>

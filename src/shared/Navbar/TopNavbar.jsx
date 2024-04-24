@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 const TopNavbar = () => {
   return (
-    <div  data-aos='fade-down' className='bg-blue-500 '>
+    <div data-aos='fade-down' className='bg-blue-500 '>
       <div className='hidden w-[95%] mx-auto lg:flex justify-between'>
         {/* Contact section */}
         <div className='flex space-x-5 py-2'>
@@ -27,13 +27,17 @@ const TopNavbar = () => {
             <div className='text-white text-xs'>
               <FaPhoneAlt></FaPhoneAlt>
             </div>
-            <p className='text-white text-xs'>+(88) 01581 - 629271</p>
+            <a href='tel:+8801581629171' className='text-white text-xs'>
+              +(88) 01581-629271
+            </a>
           </div>
           <div className='flex items-center justify-center space-x-2'>
             <div className='text-white text-xs'>
               <FaRegEnvelope />{' '}
             </div>
-            <p className='text-white text-xs'>kawsar1146236@gmail.com</p>
+            <a href='mailto:kawsar1146236@gmail.com' className='text-white text-xs'>
+              kawsar1146236@gmail.com
+            </a>
           </div>
         </div>
 

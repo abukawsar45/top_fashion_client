@@ -25,6 +25,9 @@ const ProductsCart = ({ product }) => {
   } = product || {};
   console.log(product);
 
+  const handleAddButton = () => {
+    console.log('first')
+  }
   const openModal = () => {
     setIsOpen(true);
     console.log({ product });
@@ -66,7 +69,7 @@ const ProductsCart = ({ product }) => {
             </div>
 
             <div>
-              <Button>
+              <Button disabled={!stock} >
                 <GrCart />
               </Button>
             </div>
@@ -114,7 +117,7 @@ const ProductsCart = ({ product }) => {
                     bg='bg-gray-100'
                     textSize={'md:text-xl'}
                   />
-                  <Div label='Stock' value={stock + 'pcs'} />
+                  <Div label='Stock :' value={stock ? stock + 'pcs' : 0} />
                 </div>
                 <div className='grid grid-cols-2'>
                   <Div label='Category :' value={category} />
@@ -134,7 +137,13 @@ const ProductsCart = ({ product }) => {
                 </p>
               </div>
               <div>
-                <Button width={'w-full'}>Add to Cart</Button>
+                <Button
+                  onClick={handleAddButton}
+                  disabled={!stock}
+                  width={'w-full'}
+                >
+                  Add to Cart
+                </Button>
               </div>
             </div>
           </div>
