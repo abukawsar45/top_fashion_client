@@ -5,10 +5,14 @@ import { FaEye } from 'react-icons/fa';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 import Div from '../Div/Div';
+import { addToBookingDB, getBookingCart } from '../../utilities/fakeDB/fakeDb';
+        
 
-const ProductsCart = ({ product }) => {
+const ProductsCart = ({ product, handleAddToCart }) => {
   let [isOpen, setIsOpen] = useState(false);
   let [isCollapse, setIsCollapse] = useState(false);
+
+
 
   const {
     category,
@@ -23,11 +27,11 @@ const ProductsCart = ({ product }) => {
     shippings,
     stock,
   } = product || {};
-  console.log(product);
+  // console.log(product);
 
   const handleAddButton = () => {
-    console.log('first')
-  }
+    console.log('first');
+  };
   const openModal = () => {
     setIsOpen(true);
     console.log({ product });
@@ -69,7 +73,7 @@ const ProductsCart = ({ product }) => {
             </div>
 
             <div>
-              <Button disabled={!stock} >
+              <Button onClick={() => handleAddToCart(_id)} disabled={!stock}>
                 <GrCart />
               </Button>
             </div>
@@ -138,7 +142,7 @@ const ProductsCart = ({ product }) => {
               </div>
               <div>
                 <Button
-                  onClick={handleAddButton}
+                  onClick={() => handleAddToCart(_id)}
                   disabled={!stock}
                   width={'w-full'}
                 >
