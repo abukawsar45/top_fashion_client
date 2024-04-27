@@ -3,7 +3,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 const ProductsLoading = () => {
-  const dataLength = 16;
+  const dataLength = 8;
   const skeletons = Array.from({ length: dataLength }, (_, index) => (
     <div key={index}>
       <div>
