@@ -13,6 +13,9 @@ const Login = () => {
 
    const [error, setError] = useState('');
    const [success, setSuccess] = useState('');
+  const [showPass, setShowPass] = useState(false);
+  const [showConPass, setShowConPass] = useState(false);
+  const [showPhone, setShowPhone] = useState(true);
 
    const { loginWithGoogle, loginWithEmailAndPassword } =
      useContext(AuthContext);
@@ -53,34 +56,71 @@ const Login = () => {
         {/* input form */}
         <div className='bg-white px-10 ' data-aos='fade-left'>
           <form onSubmit={handleLogin} className=''>
-            <div className='text-left my-2 md:mt-8 lg:mt-12'>
-              <label htmlFor='email' className='px-2'>
-                Email
-              </label>
-              <br />
-              <input
-                type='email'
-                id='email'
-                placeholder='abc@gmail.com'
-                name='email'
-                required
-                className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96'
-              />
+            {showPhone && (
+              <div className='text-left my-2 md:mt-8 lg:mt-12'>
+                <label htmlFor='email' className='px-2'>
+                  Phone{' '}
+                  <small>( Must be include your country code +88 ) </small>
+                </label>
+                <br />
+                <input
+                  type='text'
+                  id='phone'
+                  placeholder='+8801581629271'
+                  name='phone'
+                  required
+                  className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96 focus:outline-none focus:border-blue-500'
+                />
+              </div>
+            )}
+            {!showPhone && (
+              <div className='text-left my-2 md:mt-8 lg:mt-12'>
+                <label htmlFor='email' className='px-2'>
+                  Email
+                </label>
+                <br />
+                <input
+                  type='email'
+                  id='email'
+                  placeholder='abc@gmail.com'
+                  name='email'
+                  required
+                  className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96 focus:outline-none focus:border-blue-500'
+                />
+              </div>
+            )}
+            <div>
+              <p
+                onClick={() => setShowPhone(!showPhone)}
+                className='cursor-pointer hover:text-blue-500'
+              >
+                {showPhone ? 'Use mail' : 'Use phone'}
+              </p>
             </div>
-            <div className='text-left my-2 md:mt-8 lg:mt-12'>
+          {!showPhone &&  <div className='text-left my-2 md:mt-8 lg:mt-12'>
               <label htmlFor='password' className='px-2'>
                 password
               </label>
               <br />
-              <input
-                type='password'
-                id='password'
-                name='password'
-                required
-                placeholder='********'
-                className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96'
-              />
-            </div>
+              <div className='w-full relative '>
+                <p className='flex'>
+                  <input
+                    type={showPass ? 'text' : 'password'}
+                    id='password'
+                    placeholder='********'
+                    name='password'
+                    className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96 focus:outline-none focus:border-blue-500'
+                    required
+                  />
+                  <p
+                    onClick={() => setShowPass(!showPass)}
+                    className='absolute ml-72 md:ml-80 cursor-pointer hover:text-blue-500'
+                  >
+                    {showPass ? 'show' : 'hide'}
+                  </p>
+                </p>
+              </div>
+            </div>}
             <div>
               <input
                 type='submit'

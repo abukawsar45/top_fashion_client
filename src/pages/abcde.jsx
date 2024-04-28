@@ -5,20 +5,27 @@ import useTitles from '../shared/Navbar/useTitles';
 import SideCard from '../shared/SignInOrUp/SideCard';
 import SocialLoginWithGoogle from '../shared/SignInOrUp/SocialLogin/SocialLoginWithGoogle';
 
-//
-import {
-  RecaptchaVerifier
-} from 'firebase/auth';
+// 
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { BsFillShieldLockFill, BsTelephoneFill } from 'react-icons/bs';
 import OtpInput from 'otp-input-react';
 import Button from '../components/Button/Button';
 import { CgSpinner } from 'react-icons/cg';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import app from '../firebase/firebase.config';
+
+
+
 
 
 const Register = () => {
+  
   useTitles('| Register');
+  
+  const auth = getAuth(app);
+
+  auth.languageCode = 'it';
 
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
@@ -31,18 +38,11 @@ const Register = () => {
   const [showOTP, setShowOTP] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-
-  const {
-    auth,
-    loginWithPhone,
-    signUpWithEmail,
-    loginWithGoogle,
-    updateUserProfile,
-    user,
-    setUser,
-  } = useContext(AuthContext);
-
   
+  // const { signUpWithEmail, loginWithGoogle, updateUserProfile, user, setUser } =
+  //   useContext(AuthContext);
+
+  console.log(auth);
 
   // const handleRegister = (event) => {
   //   event.preventDefault();
@@ -55,7 +55,7 @@ const Register = () => {
   //   const photo = form.photo.value;
   //   console.log(name, email, password, confirmPassword, photo)
 
-  //   //
+  //   // 
   //    signUpWithEmail(email, password)
   //      .then((result) => {
   //        const loggedUser = result.user;
@@ -73,24 +73,63 @@ const Register = () => {
   //      });
 
   // }
- 
+  // const handleRegisterTwo = (event) => {
+  //   event.preventDefault();
+    
+  //   const form = event.target
+  //   const name = form?.name?.value
+  //   const phone = form?.phone?.value
+  //   const email = form?.email?.value
+  //   const password = form?.password?.value
+  //   const confirmPassword = form?.confirmPassword?.value
+  //   const photo = form?.photo?.value;
+  //   if (phone)
+  //   {
+  //     console.log({ name, phone, photo })
+  //     setPh(phone);
+  //     setShowForm(false);
+      
+  //   }
+  //   else
+  //   {
+  //     console.log({ email, password, confirmPassword, photo })
+  //     signUpWithEmail(email, password)
+  //       .then((result) => {
+  //         const loggedUser = result.user;
+  //         setError('');
+  //         setSuccess('Register Successfull');
+  //         form.reset();
+  //         setUser({ ...user, displayName: name, photoURL: photo });
+  //         updateUserProfile(name, photo);
+  //         //console.log(updateUserProfile)
+  //         navigate(from);
+  //       })
+  //       .catch((error) => {
+  //         setSuccess('');
+  //         setError(error.message);
+  //       });
+  //   }
+
+  // }
 
   const onCaptchVerify = () => {
-    // if (!window.recaptchaVerifier)
-    // {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      auth,
-      'recaptcha-container',
-      {
-        size: 'invisible',
-        callback: (response) => {
-          onSignUp();
-        },
-        'expired-callback': () => {},
-      }
-    );
-    // }
-  };
+    if (!window.recaptchaVerifier)
+    {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        'recaptcha-container',
+        {
+          size: 'invisible',
+          callback: (response) => {
+            onSignUp();
+          },
+          'expired-callback': () => {
+          
+          },
+        }
+      );
+    }
+  }
 
   const onSignUp = (event) => {
     event.preventDefault();
@@ -101,33 +140,34 @@ const Register = () => {
     const password = form?.password?.value;
     const confirmPassword = form?.confirmPassword?.value;
     const photo = form?.photo?.value;
-    if(showPhone)
-    {
+  
+      console.log(phone)
       setPhoneNumber(phone);
       setShowForm(false);
       setVerifyLoading(true);
       onCaptchVerify();
 
-      loginWithPhone(phone)
-        .then((confirmationResult) => {
-          window.confirmationResult = confirmationResult;
-          setVerifyLoading(false);
-          setShowOTP(true);
-        })
-        .catch((error) => {
-          console.log(error);
-          setVerifyLoading(false);
-        });
-    }
-    else{
+      const appVerifier = window.recaptchaVerifier;
+      
+      signInWithPhoneNumber(auth, phone, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        setVerifyLoading(false);
+        setShowOTP(true);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setVerifyLoading(false);
+      });
+      
+    
+    
 
-      console.log('email')
-    }
-  };
+  }
   return (
     <div className='mx-auto bg-blue-300 transition-all duration-150'>
       <div id='recaptcha-container'></div>
-      {showForm ? (
+      {showForm ? ( 
         <div className='flex  flex-col-reverse lg:flex-row justify-center gap-4'>
           {/* left part */}
           <SideCard title='Register Now' direction='fade-left' />
@@ -349,7 +389,7 @@ const Register = () => {
                 </div>
                 <Button
                       // onClick={onOTPVerify}
-                      disabled={true}
+                  disabled={true}
                   bg={'bg-violet-400'}
                   width={
                     'w-8/12 md:w-4/12 lg:w-2/12 mx-auto flex justify-center items-center gap-2'

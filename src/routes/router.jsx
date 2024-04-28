@@ -24,6 +24,14 @@ export const router = createBrowserRouter([
         element: <Register />,
       },
       {
+        path: '/aboutUs',
+        element: <p>about us </p>,
+      },
+      {
+        path: '/blog',
+        element: <p>blog </p>,
+      },
+      {
         path: 'ProductDetails/:id',
         element: <ProductDetails />,
         loader: ({ params }) =>

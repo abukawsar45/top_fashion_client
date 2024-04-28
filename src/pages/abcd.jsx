@@ -7,7 +7,9 @@ import SocialLoginWithGoogle from '../shared/SignInOrUp/SocialLogin/SocialLoginW
 
 //
 import {
-  RecaptchaVerifier
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
 } from 'firebase/auth';
 import { BsFillShieldLockFill, BsTelephoneFill } from 'react-icons/bs';
 import OtpInput from 'otp-input-react';
@@ -15,10 +17,14 @@ import Button from '../components/Button/Button';
 import { CgSpinner } from 'react-icons/cg';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-
+import app from '../firebase/firebase.config';
 
 const Register = () => {
   useTitles('| Register');
+
+  const auth = getAuth(app);
+
+  auth.languageCode = 'it';
 
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
@@ -32,17 +38,10 @@ const Register = () => {
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const {
-    auth,
-    loginWithPhone,
-    signUpWithEmail,
-    loginWithGoogle,
-    updateUserProfile,
-    user,
-    setUser,
-  } = useContext(AuthContext);
+  // const { signUpWithEmail, loginWithGoogle, updateUserProfile, user, setUser } =
+  //   useContext(AuthContext);
 
-  
+  console.log(auth);
 
   // const handleRegister = (event) => {
   //   event.preventDefault();
@@ -73,7 +72,44 @@ const Register = () => {
   //      });
 
   // }
- 
+  // const handleRegisterTwo = (event) => {
+  //   event.preventDefault();
+
+  //   const form = event.target
+  //   const name = form?.name?.value
+  //   const phone = form?.phone?.value
+  //   const email = form?.email?.value
+  //   const password = form?.password?.value
+  //   const confirmPassword = form?.confirmPassword?.value
+  //   const photo = form?.photo?.value;
+  //   if (phone)
+  //   {
+  //     console.log({ name, phone, photo })
+  //     setPh(phone);
+  //     setShowForm(false);
+
+  //   }
+  //   else
+  //   {
+  //     console.log({ email, password, confirmPassword, photo })
+  //     signUpWithEmail(email, password)
+  //       .then((result) => {
+  //         const loggedUser = result.user;
+  //         setError('');
+  //         setSuccess('Register Successfull');
+  //         form.reset();
+  //         setUser({ ...user, displayName: name, photoURL: photo });
+  //         updateUserProfile(name, photo);
+  //         //console.log(updateUserProfile)
+  //         navigate(from);
+  //       })
+  //       .catch((error) => {
+  //         setSuccess('');
+  //         setError(error.message);
+  //       });
+  //   }
+
+  // }
 
   const onCaptchVerify = () => {
     // if (!window.recaptchaVerifier)
@@ -92,37 +128,24 @@ const Register = () => {
     // }
   };
 
-  const onSignUp = (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const name = form?.name?.value;
-    const phone = form?.phone?.value;
-    const email = form?.email?.value;
-    const password = form?.password?.value;
-    const confirmPassword = form?.confirmPassword?.value;
-    const photo = form?.photo?.value;
-    if(showPhone)
-    {
-      setPhoneNumber(phone);
-      setShowForm(false);
-      setVerifyLoading(true);
-      onCaptchVerify();
+  const onSignUp = (e) => {
+    e.preventDefault();
+    setShowForm(false);
+    setVerifyLoading(true);
+    onCaptchVerify();
 
-      loginWithPhone(phone)
-        .then((confirmationResult) => {
-          window.confirmationResult = confirmationResult;
-          setVerifyLoading(false);
-          setShowOTP(true);
-        })
-        .catch((error) => {
-          console.log(error);
-          setVerifyLoading(false);
-        });
-    }
-    else{
-
-      console.log('email')
-    }
+    const appVerifier = window.recaptchaVerifier;
+    const phoneNumber = '+8801581629271';
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        setVerifyLoading(false);
+        setShowOTP(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        setVerifyLoading(false);
+      });
   };
   return (
     <div className='mx-auto bg-blue-300 transition-all duration-150'>
@@ -343,13 +366,12 @@ const Register = () => {
                   <PhoneInput
                     country={'bd'}
                     value={phoneNumber}
-                    disabled
+                    onChange={setPhoneNumber}
                     className=''
                   ></PhoneInput>
                 </div>
                 <Button
-                      // onClick={onOTPVerify}
-                      disabled={true}
+                  // onClick={onOTPVerify}
                   bg={'bg-violet-400'}
                   width={
                     'w-8/12 md:w-4/12 lg:w-2/12 mx-auto flex justify-center items-center gap-2'

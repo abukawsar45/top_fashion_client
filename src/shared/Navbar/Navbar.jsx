@@ -20,35 +20,13 @@ const Navbar = () => {
   const navData = (
     <>
       <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/'>
-          <a>Work</a>
-        </ActiveLink>
-      </li>
-
-      <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/'>
-          <a>Solutions</a>
+        <ActiveLink to='/aboutUs'>
+          About Us
         </ActiveLink>
       </li>
       <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/services'>
-          <a>Services</a>
-        </ActiveLink>
-      </li>
-      <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/'>
-          {' '}
-          <a>Tech for Hire</a>
-        </ActiveLink>
-      </li>
-      <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/'>
-          <a>About Us</a>
-        </ActiveLink>
-      </li>
-      <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/'>
-          <a>Blog</a>
+        <ActiveLink to='/blog'>
+          Blog
         </ActiveLink>
       </li>
       {user && (
@@ -60,7 +38,7 @@ const Navbar = () => {
         <>
           <li onClick={() => setShowNavLinks(!showNavLinks)}>
             <ActiveLink to='/login'>
-              <a>Login</a>
+             Login
             </ActiveLink>
           </li>
           <li onClick={() => setShowNavLinks(!showNavLinks)}>
@@ -110,8 +88,10 @@ const Navbar = () => {
         </div>
         <div className=''>
           <Link href='/' className=' text-2xl flex'>
-            <img src={tf} alt='logo' className='w-8' />
-            <span className='monoton-regular'>Top {' '} Fashion</span>
+            <img src={tf} alt='logo ' className='w-8' />
+            <p className='logo-top'>
+              <span className='monoton-regular logo-text '>Top Fashion</span>
+            </p>
           </Link>
         </div>
         <div className=' hidden lg:flex'>

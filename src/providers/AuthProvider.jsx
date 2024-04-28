@@ -3,6 +3,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -15,6 +17,7 @@ import app from '../firebase/firebase.config';
 export const AuthContext = createContext(null);
 
 const auth = getAuth(app);
+auth.languageCode = 'it';
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('');
@@ -23,6 +26,11 @@ const AuthProvider = ({ children }) => {
 
   const googleProvider = new GoogleAuthProvider();
 
+  const loginWithPhone = (phone) => {
+    setLoading(true);
+    const appVerifier = window.recaptchaVerifier;
+    return signInWithPhoneNumber(auth, phone, appVerifier);
+  }
   const loginWithGoogle = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
@@ -64,9 +72,11 @@ const AuthProvider = ({ children }) => {
   };
 
   const authInfo = {
+    auth,
     user,
     setUser,
     loading,
+    loginWithPhone,
     loginWithGoogle,
     updateUserProfile,
     signUpWithEmail,

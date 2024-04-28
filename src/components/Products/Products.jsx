@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Products = () => {
   const { data: productsData, loading } = useFetch('/allProducts');
-  const [sliceValue, setSliceValue] = useState(8);
+  const [sliceValue, setSliceValue] = useState(12);
   let [storeCart, setStoreCart] = useState(getBookingCart() || {});
 
   
@@ -56,8 +56,8 @@ const Products = () => {
       {!loading && productsData.length > sliceValue && (
         <button
           type='button'
-          onClick={() => setSliceValue((prev) => prev + 8)}
-          className='mt-10 mx-auto px-3 py-2 rounded-md font-semibold  flex justify-center items-center border border-blue-500 bg-blue-400 hover:bg-blue-500 hover:text-white'
+          onClick={() => setSliceValue((prev) => prev + 12)}
+          className='mt-10 mx-auto px-3 py-2 rounded-md font-semibold  flex justify-center items-center border border-gray-200 text-white hover:text-gray-700 bg-blue-400 hover:bg-blue-500 '
         >
           View More
         </button>
