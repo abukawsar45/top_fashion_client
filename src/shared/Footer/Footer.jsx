@@ -6,20 +6,27 @@ import {
   FaLinkedin,
   FaWhatsapp,
 } from 'react-icons/fa';
+import tf from '../../assets/tf.png';
 
 const Footer = () => {
+
+  const year = new Date().getFullYear();
+
   return (
-    <div className='bg-gradient-to-r from-[#0076CE] to-[#9400D3] text-white my-4 md:my-8 lg:my-32 px-2 md:px-4 lg:px-12'>
+    <div className='bg-gray-600 text-white my-4 md:my-8 lg:my-32 px-2 md:px-4 lg:px-12'>
       <footer className='container   py-2 md:py-4 lg:py-9'>
         <div>
           <div className='grid grid-cols-1 mt-4 md:mt-0 md:grid-cols-3 lg:grid-cols-7 gap-2 md:gap-8 lg:gap-8 '>
             <div className='my-4 md:my-0 justify-start md:items-center'>
-              <Link to='/'>
-               logo
+              <Link href='/' className=' text-2xl flex'>
+                <p className='logo-top'>
+                  <span className='monoton-regular logo-text '>
+                    Top Fashion
+                  </span>
+                </p>
               </Link>
               <p className='mt-2 md:mt-4 lg:w-56 '>
-                India&apos;s first platform dedicated to simplifying partner
-                search
+                Our goal is to build a beautiful Bangladesh.
               </p>
             </div>
             <div className='hidden lg:block'></div>
@@ -100,10 +107,10 @@ const Footer = () => {
         <hr className='border-t border-white my-3 md:my-4 lg:my-8 ' />
         <div className='w-full flex justify-between items-center mt-4'>
           <div>
-            <p className='text-sm'>
-              Sambhaji Nagar, No2, St. Antony Road, Chembur, Mumbai - 400071,
-              Maharashtra
-            </p>
+            <p className='text-sm'>Dhaka 1216, Bangladesh</p>
+          </div>
+          <div>
+            <p className='text-sm'>Copyright &copy; {year} Top Fashion</p>
           </div>
           <div className='flex space-x-6'>
             <Link href='#' className='text-white text-2xl'>

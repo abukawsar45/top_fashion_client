@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLoaderData, useParams } from 'react-router-dom';
 import Button from '../Button/Button';
 import Div from '../Div/Div';
 
 const ProductDetails = () => {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   const productData = useLoaderData();
   console.log(productData);
@@ -32,9 +35,9 @@ const ProductDetails = () => {
 
 
   return (
-    <div >
+    <div>
       {/* <div className='my-4 grid md:grid-cols-1 lg:grid-cols-2'> */}
-      <div className=' flex md:flex-col lg:flex-row justify-between gap-2'>
+      <div className=' flex flex-col lg:flex-row justify-between gap-2'>
         <div className='lg:basis-1/2'>
           <div className='relative'>
             <img
@@ -55,9 +58,9 @@ const ProductDetails = () => {
             </p>
           </div>
         </div>
-        <div className='lg:basis-1/2 flex flex-col justify-between'>
+        <div className='mx-2 lg:basis-1/2 flex flex-col justify-between'>
           <div className=''>
-            <h4 className='md:mt-4 lg:mt-0 md:mb-2 lg:text-2xl font-semibold'>
+            <h4 className=' md:mt-4 lg:mt-0 md:mb-2 lg:text-2xl font-semibold'>
               {name}
             </h4>
             <div className='grid grid-cols-2'>
@@ -67,19 +70,19 @@ const ProductDetails = () => {
                 bg='bg-gray-100'
                 textSize={'md:text-xl'}
               />
-              <Div label='Stock :' value={stock? (stock + 'pcs'): 0} />
+              <Div label='Stock :' value={stock ? stock + 'pcs' : 0} />
             </div>
             <div className='grid grid-cols-2'>
               <Div label='Category :' value={category} />
               <Div label='Ratings :' value={ratings} />
             </div>
             {/* <p>{description.substring(0, 130)}......</p> */}
-            <p className='mb-2'>
-              { description }
-            </p>
+            <p className='mb-2'>{description}</p>
           </div>
           <div>
-            <Button disabled={!stock}  width={'w-full'}>Add to Cart</Button>
+            <Button disabled={!stock} width={'w-full'}>
+              Add to Cart
+            </Button>
           </div>
         </div>
       </div>

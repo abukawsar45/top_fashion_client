@@ -14,23 +14,22 @@ import {
 } from 'firebase/auth';
 import app from '../firebase/firebase.config';
 
-export const AuthContext = createContext(null);
+
 
 const auth = getAuth(app);
 auth.languageCode = 'it';
 
-const AuthProvider = ({ children }) => {
+const UserAuth = () => {
   const [user, setUser] = useState('');
   const [loading, setLoading] = useState(true);
-  // //console.log(loading)
 
   const googleProvider = new GoogleAuthProvider();
 
-  const loginWithPhone = (phone) => {
+  const loginWithPhone = (phone, appVerifier) => {
     setLoading(true);
-    const appVerifier = window.recaptchaVerifier;
     return signInWithPhoneNumber(auth, phone, appVerifier);
-  }
+  };
+
   const loginWithGoogle = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
@@ -45,6 +44,7 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
+
   const resetPassword = (email) => {
     setLoading(true);
     return sendPasswordResetEmail(auth, email);
@@ -85,9 +85,7 @@ const AuthProvider = ({ children }) => {
     resetPassword,
   };
 
-  return (
-    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-  );
+  return authInfo;
 };
 
-export default AuthProvider;
+export default UserAuth;

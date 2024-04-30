@@ -1,21 +1,21 @@
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import {  MyContext } from '../providers/MyProvider';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useTitles from '../shared/Navbar/useTitles';
 import SideCard from '../shared/SignInOrUp/SideCard';
 import SocialLoginWithGoogle from '../shared/SignInOrUp/SocialLogin/SocialLoginWithGoogle';
 
 //
-import {
-  RecaptchaVerifier
-} from 'firebase/auth';
+import { RecaptchaVerifier } from 'firebase/auth';
 import { BsFillShieldLockFill, BsTelephoneFill } from 'react-icons/bs';
 import OtpInput from 'otp-input-react';
 import Button from '../components/Button/Button';
 import { CgSpinner } from 'react-icons/cg';
 import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
-
+import { ToastContainer, toast } from 'react-toastify';
+import { TbEyeOff, TbEye } from 'react-icons/tb';
+import { MdOutlinePermPhoneMsg } from 'react-icons/md';
+import { IoMail } from 'react-icons/io5';
 
 const Register = () => {
   useTitles('| Register');
@@ -31,6 +31,8 @@ const Register = () => {
   const [showOTP, setShowOTP] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [userName, setUserName] = useState('');
+  const [photoURL, setPhotoURL] = useState('');
 
   const {
     auth,
@@ -40,41 +42,16 @@ const Register = () => {
     updateUserProfile,
     user,
     setUser,
-  } = useContext(AuthContext);
+  } = useContext(MyContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.form?.pathname || '/';
 
-  
+  console.log(userName, user);
 
-  // const handleRegister = (event) => {
-  //   event.preventDefault();
-  //   console.log('first')
-  //   const form = event.target
-  //   const name = form.name.value
-  //   const email = form.email.value
-  //   const password = form.password.value
-  //   const confirmPassword = form.confirmPassword.value
-  //   const photo = form.photo.value;
-  //   console.log(name, email, password, confirmPassword, photo)
-
-  //   //
-  //    signUpWithEmail(email, password)
-  //      .then((result) => {
-  //        const loggedUser = result.user;
-  //        setError('');
-  //        setSuccess('Register Successfull');
-  //        form.reset();
-  //        setUser({ ...user, displayName: name, photoURL: photo });
-  //        updateUserProfile(name, photo);
-  //        //console.log(updateUserProfile)
-  //        navigate(from);
-  //      })
-  //      .catch((error) => {
-  //        setSuccess('');
-  //        setError(error.message);
-  //      });
-
-  // }
- 
-
+  if (user) {
+    navigate('/', { replace: true });
+  }
   const onCaptchVerify = () => {
     // if (!window.recaptchaVerifier)
     // {
@@ -101,31 +78,74 @@ const Register = () => {
     const password = form?.password?.value;
     const confirmPassword = form?.confirmPassword?.value;
     const photo = form?.photo?.value;
-    if(showPhone)
-    {
+    if (showPhone) {
       setPhoneNumber(phone);
       setShowForm(false);
       setVerifyLoading(true);
       onCaptchVerify();
 
-      loginWithPhone(phone)
+      const appVerifier = window.recaptchaVerifier;
+      loginWithPhone(phone, appVerifier)
         .then((confirmationResult) => {
           window.confirmationResult = confirmationResult;
           setVerifyLoading(false);
+          toast.success('OTP sended successfully!');
           setShowOTP(true);
         })
         .catch((error) => {
           console.log(error);
+          toast.error('Something is wrong!');
           setVerifyLoading(false);
         });
-    }
-    else{
-
-      console.log('email')
+    } else {
+      if (password != confirmPassword) {
+        toast.error('Passwords do not match!!');
+      } else {
+        signUpWithEmail(email, password)
+          .then((result) => {
+            const loggedUser = result.user;
+            setError('');
+            setSuccess('Register Successfull');
+            form.reset();
+            setUser({ ...user, displayName: name, photoURL: photo });
+            updateUserProfile(name, photo);
+            toast.success('Registration Successful');
+            console.log(updateUserProfile);
+            navigate(from);
+          })
+          .catch((error) => {
+            setSuccess('');
+            toast.error('Something is wrong!');
+            setError(error.message);
+          });
+      }
     }
   };
+
+  const onOTPVerify = () => {
+    console.log('otp');
+    setVerifyLoading(true);
+    window.confirmationResult
+      .confirm(otp)
+      .then(async (res) => {
+        console.log(res);
+        updateUserProfile(userName, photoURL).then(() => {
+          console.log(userName, photoURL);
+        });
+        toast.success('Registration Successful');
+        setVerifyLoading(false);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Sorry, your OTP is incorrect!');
+        setVerifyLoading(false);
+      });
+  };
+
   return (
-    <div className='mx-auto bg-blue-300 transition-all duration-150'>
+    <div className='mx-auto bg-blue-300 transition-all duration-150 py-4 md:py-6 lg:py-8'>
+      <ToastContainer />
       <div id='recaptcha-container'></div>
       {showForm ? (
         <div className='flex  flex-col-reverse lg:flex-row justify-center gap-4'>
@@ -143,6 +163,7 @@ const Register = () => {
                   type='text'
                   id='name'
                   placeholder='Abu Kawsar'
+                  onChange={(e) => setUserName(e.target.value)}
                   name='name'
                   required
                   className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96 focus:outline-none focus:border-blue-500'
@@ -184,9 +205,17 @@ const Register = () => {
               <div>
                 <p
                   onClick={() => setShowPhone(!showPhone)}
-                  className='cursor-pointer hover:text-blue-500'
+                  className='cursor-pointer text-blue-400 hover:text-blue-500'
                 >
-                  {showPhone ? 'Use email' : 'Use phone'}
+                  {showPhone ? (
+                    <span className='flex items-center gap-2'>
+                      Use mail <IoMail />
+                    </span>
+                  ) : (
+                    <span className='flex items-center gap-2'>
+                      Use Phone <MdOutlinePermPhoneMsg />
+                    </span>
+                  )}
                 </p>
               </div>
 
@@ -196,22 +225,20 @@ const Register = () => {
                     password
                   </label>
                   <br />
-                  <div className='w-full relative '>
-                    <p className='flex'>
-                      <input
-                        type={showPass ? 'text' : 'password'}
-                        id='password'
-                        placeholder='********'
-                        name='password'
-                        className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96 focus:outline-none focus:border-blue-500'
-                        required
-                      />
-                      <p
-                        onClick={() => setShowPass(!showPass)}
-                        className='absolute ml-72 md:ml-80 cursor-pointer hover:text-blue-500'
-                      >
-                        {showPass ? 'show' : 'hide'}
-                      </p>
+                  <div className='w-full relative flex items-center '>
+                    <input
+                      type={showPass ? 'text' : 'password'}
+                      id='password'
+                      placeholder='********'
+                      name='password'
+                      className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96 focus:outline-none focus:border-blue-500'
+                      required
+                    />
+                    <p
+                      onClick={() => setShowPass(!showPass)}
+                      className='absolute right-2 cursor-pointer hover:text-blue-500'
+                    >
+                      {showPass ? <TbEye /> : <TbEyeOff />}
                     </p>
                   </div>
                 </div>
@@ -222,22 +249,20 @@ const Register = () => {
                     Confirm Password
                   </label>
                   <br />
-                  <div className='w-full relative '>
-                    <p className='flex'>
-                      <input
-                        type={showConPass ? 'text' : 'password'}
-                        id='confirmPassword'
-                        placeholder='********'
-                        name='confirmPassword'
-                        className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96 focus:outline-none focus:border-blue-500'
-                        required
-                      />
-                      <p
-                        onClick={() => setShowConPass(!showConPass)}
-                        className='absolute ml-72 md:ml-80 cursor-pointer hover:text-blue-500'
-                      >
-                        {showConPass ? 'show' : 'hide'}
-                      </p>
+                  <div className='w-full relative flex items-center'>
+                    <input
+                      type={showConPass ? 'text' : 'password'}
+                      id='confirmPassword'
+                      placeholder='********'
+                      name='confirmPassword'
+                      className='px-2 md:px-4 py-1 md:py-2 border-b-2 border-b-cyan-500 w-full md:w-96 focus:outline-none focus:border-blue-500'
+                      required
+                    />
+                    <p
+                      onClick={() => setShowConPass(!showConPass)}
+                      className='absolute right-2 cursor-pointer hover:text-blue-500'
+                    >
+                      {showConPass ? <TbEye /> : <TbEyeOff />}
                     </p>
                   </div>
                 </div>
@@ -308,11 +333,12 @@ const Register = () => {
                   onChange={setOtp}
                   otpType='number'
                   disabled={false}
-                  className='mx-auto gap-2 '
+                  className='mx-auto gap-2 otp-container '
                 ></OtpInput>
                 <Button
-                  // onClick={onOTPVerify}
+                  onClick={onOTPVerify}
                   bg={'bg-violet-400'}
+                  disabled={verifyLoading}
                   width={
                     'w-8/12 md:w-4/12 lg:w-2/12 mx-auto flex justify-center items-center gap-2'
                   }
@@ -348,8 +374,7 @@ const Register = () => {
                   ></PhoneInput>
                 </div>
                 <Button
-                      // onClick={onOTPVerify}
-                      disabled={true}
+                  disabled={true}
                   bg={'bg-violet-400'}
                   width={
                     'w-8/12 md:w-4/12 lg:w-2/12 mx-auto flex justify-center items-center gap-2'
