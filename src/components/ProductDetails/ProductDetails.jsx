@@ -1,23 +1,47 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLoaderData, useParams } from 'react-router-dom';
 import Button from '../Button/Button';
 import Div from '../Div/Div';
+import { MyContext } from '../../providers/MyProvider';
+import 'react-toastify/dist/ReactToastify.css';
+import useFetch from '../../hooks/useFetch';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const ProductDetails = () => {
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  const {
+    userData: { addToBookingDB, getBookingCart },
+  } = useContext(MyContext);
 
+  const [existItem, setExistItem] = useState(false);
+
+  let [storeCart, setStoreCart] = useState(getBookingCart() || {});
   const productData = useLoaderData();
   console.log(productData);
 
-  const {id: serachId} = useParams();
-  console.log(serachId)
-
+  const { id: searchId } = useParams();
+  console.log(existItem);
 
   const job = {};
 
-  
+    const handleAddToCart = (id) => {
+      addToBookingDB(id);
+      const exists = Object.keys(storeCart).includes(id);
+      console.log({ exists });
+      if (exists)
+      {
+        setExistItem(true);
+        return toast.error('Already added this item!');
+      } else
+      {
+        setExistItem(true);
+        toast.success('Product added to cart!');
+      }
+      const addedProduct = getBookingCart();
+      setStoreCart(addedProduct);
+    };
+
   const {
     category,
     _id,
@@ -33,9 +57,14 @@ const ProductDetails = () => {
     stock,
   } = productData || {};
 
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const exists = Object.keys(storeCart).includes(_id);
+    setExistItem(exists);
+  }, []);
   return (
     <div>
+      <ToastContainer />
       {/* <div className='my-4 grid md:grid-cols-1 lg:grid-cols-2'> */}
       <div className=' flex flex-col lg:flex-row justify-between gap-2'>
         <div className='lg:basis-1/2'>
@@ -80,8 +109,17 @@ const ProductDetails = () => {
             <p className='mb-2'>{description}</p>
           </div>
           <div>
-            <Button disabled={!stock} width={'w-full'}>
-              Add to Cart
+            <Button
+              bg={!stock && 'bg-red-700'}
+              onClick={() => handleAddToCart(_id)}
+              disabled={!stock || existItem}
+              width={'w-full'}
+            >
+              {stock
+                ? existItem
+                  ? 'Already added'
+                  : 'Add to Cart'
+                : 'Stock out'}
             </Button>
           </div>
         </div>

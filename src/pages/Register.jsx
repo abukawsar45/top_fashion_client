@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext,useEffect, useState } from 'react';
 import {  MyContext } from '../providers/MyProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useTitles from '../shared/Navbar/useTitles';
@@ -20,6 +20,10 @@ import { IoMail } from 'react-icons/io5';
 const Register = () => {
   useTitles('| Register');
 
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [showPass, setShowPass] = useState(false);
@@ -35,13 +39,13 @@ const Register = () => {
   const [photoURL, setPhotoURL] = useState('');
 
   const {
-    auth,
+    authInfo:{auth,
     loginWithPhone,
     signUpWithEmail,
     loginWithGoogle,
     updateUserProfile,
     user,
-    setUser,
+    setUser,}
   } = useContext(MyContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -94,7 +98,7 @@ const Register = () => {
         })
         .catch((error) => {
           console.log(error);
-          toast.error('Something is wrong!');
+          toast.error(error?.message);
           setVerifyLoading(false);
         });
     } else {
@@ -105,7 +109,7 @@ const Register = () => {
           .then((result) => {
             const loggedUser = result.user;
             setError('');
-            setSuccess('Register Successfull');
+            setSuccess('Register Successful');
             form.reset();
             setUser({ ...user, displayName: name, photoURL: photo });
             updateUserProfile(name, photo);
@@ -115,7 +119,7 @@ const Register = () => {
           })
           .catch((error) => {
             setSuccess('');
-            toast.error('Something is wrong!');
+            toast.error(error?.message );
             setError(error.message);
           });
       }
@@ -138,7 +142,8 @@ const Register = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Sorry, your OTP is incorrect!');
+        // toast.error('Sorry, your OTP is incorrect!');
+             toast.error(error?.message+'!');
         setVerifyLoading(false);
       });
   };

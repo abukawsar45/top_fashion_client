@@ -3,6 +3,7 @@ import Main from '../layout/Main';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import AddedItems from '../pages/AddedItems';
 import ProductDetails from '../components/ProductDetails/ProductDetails';
 
 export const router = createBrowserRouter([
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: '/blog',
         element: <p>blog </p>,
+      },
+      {
+        path: '/addedItems',
+        element: <AddedItems/>,
       },
       {
         path: 'ProductDetails/:id',

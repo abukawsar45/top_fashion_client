@@ -6,18 +6,21 @@ import tf from '../../assets/tf.png';
 import './Navbar.css';
 import { IoBagCheckOutline } from 'react-icons/io5';
 import SideModal from '../../components/Modal/SideModal';
+import CloseButton from '../../components/Button/CloseButton';
+import { AiOutlineClose } from 'react-icons/ai';
+import { FiSearch } from 'react-icons/fi';
 
 const Navbar = () => {
   const [showNavLinks, setShowNavLinks] = useState(false);
-  const [isShowAddedModal, setiSShowAddedModal] = useState(false);
+  const [isShowAddedModal, setIsShowAddedModal] = useState(false);
   // console.log(showNavLinks)
   const {
-    signUpWithEmail,
+    authInfo:{signUpWithEmail,
     loginWithGoogle,
     updateUserProfile,
     user,
     setUser,
-    logout,
+    logout,}
   } = useContext(MyContext);
 
   console.log(user);
@@ -28,12 +31,12 @@ const Navbar = () => {
   };
 
   const showAddedCart = () => {
-    setiSShowAddedModal(true);
+    setIsShowAddedModal(true);
     console.log('showAddedCart');
   };
 
   const closeIsShowAddedModal = () => {
-    setiSShowAddedModal(false);
+    setIsShowAddedModal(false);
   };
   const navData = (
     <>
@@ -130,11 +133,11 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className=''>
+        <div className='flex  gap-1 '>
           {' '}
           <form
             onSubmit={handleSearchBox}
-            className='flex rounded-md overflow-hidden'
+            className='flex h-8 rounded-md overflow-hidden'
           >
             <input
               type='text'
@@ -147,34 +150,36 @@ const Navbar = () => {
               type='submit'
               className='rounded-md rounded-l-none text-sm px-2 py-1  border-2 border-l-0 bg-emerald-400 hover:bg-emerald-500 hover:text-white border-green-500  focus:outline-none text-white sm:px-4  rounded-r-md'
             >
-              Search
+              <span className='lg:hidden'>
+                <FiSearch />
+              </span>{' '}
+              <div className='hidden lg:block'>Search</div>
             </button>
           </form>
-        </div>
-        <div className=' hidden lg:flex items-center'>
-          <ul className='flex flex-col lg:flex-row gap-8 px-1'>{navData}</ul>
-          {/* <div
-            onClick={() => showAddedCart()}
-            className='relative ml-4 mr-1 bg- cursor-pointer group hover:text-blue-500'
-          >
+          <div
+            className='relative lg:hidden ml-4 mr-4 bg- cursor-pointer group hover:text-blue-500'
+          > <Link to='/addedItems' >
             <IoBagCheckOutline className='font-bold text-2xl ' />
             <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
               1
             </p>
-          </div> */}
+            </Link>
+          </div>
+        </div>
+        <div className=' hidden lg:flex items-center'>
+          <ul className='flex flex-col lg:flex-row gap-8 px-1'>{navData}</ul>
+          <div
+            className='relative ml-4 mr-1 bg- cursor-pointer group hover:text-blue-500'
+          >
+           <Link to='/addedItems' >
+            <IoBagCheckOutline className='font-bold text-2xl ' />
+            <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
+              1
+              </p>
+              </Link>
+          </div>
         </div>
       </div>
-      {/* {isShowAddedModal && (
-        <SideModal
-          isOpen={isShowAddedModal}
-          closeModal={closeIsShowAddedModal}
-
-        >
-          <div className='w-3/12'>
-
-          </div>
-        </SideModal>
-      )} */}
     </div>
   );
 };

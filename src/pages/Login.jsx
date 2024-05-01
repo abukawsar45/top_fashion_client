@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext,useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import useTitles from '../shared/Navbar/useTitles';
 import SideCard from '../shared/SignInOrUp/SideCard';
@@ -19,6 +19,10 @@ import PhoneInput from 'react-phone-input-2';
 const Login = () => {
   useTitles('| Login');
 
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showPass, setShowPass] = useState(false);
@@ -30,13 +34,13 @@ const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const {
-    loginWithEmailAndPassword,
+   authInfo:{ loginWithEmailAndPassword,
     auth,
     loginWithPhone,
     loginWithGoogle,
     updateUserProfile,
     user,
-    setUser,
+    setUser,}
   } = useContext(MyContext);
   console.log(user);
 
@@ -88,7 +92,7 @@ const Login = () => {
         })
         .catch((error) => {
           console.log(error);
-          toast.error(error?.message + '!');
+          toast.error(error?.message );
           //  toast.error('Something is wrong!');
           setVerifyLoading(false);
         });
@@ -98,12 +102,12 @@ const Login = () => {
           const loggedUser = result.user;
 
           setError('');
-          toast.success('login successfull');
+          toast.success('login successful');
           form.reset();
           navigate(from);
         })
         .catch((error) => {
-          toast.error(error?.message + '!');
+          toast.error(error?.message );
           // toast.error("Something is wrong!")
           setSuccess('');
           setError(error.message);
@@ -127,7 +131,8 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Sorry, your OTP is incorrect!');
+        // toast.error('Sorry, your OTP is incorrect!');
+             toast.error(error?.message);
         setVerifyLoading(false);
       });
   };

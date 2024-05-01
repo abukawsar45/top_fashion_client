@@ -1,13 +1,17 @@
 import { createContext, useEffect, useState } from 'react';
 import UserAuth from './UserAuth';
+import DataStore from './DataStore';
 
 export const MyContext = createContext(null);
 
 const MyProvider = ({ children }) => {
   const authInfo = UserAuth();
-  console.log(authInfo);
+  const userData = DataStore();
 
-  return <MyContext.Provider value={authInfo}>{children}</MyContext.Provider>;
+  const myAllOperation = {authInfo, userData}
+  console.log(myAllOperation);
+
+  return <MyContext.Provider value={myAllOperation}>{children}</MyContext.Provider>;
 };
 
 export default MyProvider;

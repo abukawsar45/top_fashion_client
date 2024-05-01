@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -16,13 +16,16 @@ import app from '../firebase/firebase.config';
 
 
 
-const auth = getAuth(app);
-auth.languageCode = 'it';
-
 const UserAuth = () => {
+
+  
   const [user, setUser] = useState('');
   const [loading, setLoading] = useState(true);
+  
+  const auth = getAuth(app);
+  auth.languageCode = 'it';
 
+  
   const googleProvider = new GoogleAuthProvider();
 
   const loginWithPhone = (phone, appVerifier) => {

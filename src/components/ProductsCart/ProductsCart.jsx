@@ -7,13 +7,17 @@ import Modal from '../Modal/Modal';
 import Div from '../Div/Div';
 import { addToBookingDB, getBookingCart } from '../../utilities/fakeDB/fakeDb';
 import { AiOutlineClose } from 'react-icons/ai';
+import CloseButton from '../Button/CloseButton';
         
 
 const ProductsCart = ({ product, handleAddToCart }) => {
   let [isOpen, setIsOpen] = useState(false);
   let [isCollapse, setIsCollapse] = useState(false);
+  
+  let [storeCart, setStoreCart] = useState(getBookingCart() || {});
 
 
+  const [existItem, setExistItem] = useState(false);
 
   const {
     category,
@@ -30,9 +34,7 @@ const ProductsCart = ({ product, handleAddToCart }) => {
   } = product || {};
   // console.log(product);
 
-  const handleAddButton = () => {
-    console.log('first');
-  };
+
   const openModal = () => {
     setIsOpen(true);
     console.log({ product });
@@ -40,6 +42,12 @@ const ProductsCart = ({ product, handleAddToCart }) => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  useEffect(() => {
+      const exists = Object.keys(storeCart).includes(_id);
+    console.log({ exists });
+    setExistItem(exists);
+  },[])
 
   return (
     <div className='my-2 w-full h-full bg-white shadow-xl flex flex-col rounded-xl shadow-indigo-200 duration-100 group hover:shadow-lime-500'>
@@ -50,7 +58,14 @@ const ProductsCart = ({ product, handleAddToCart }) => {
           className='mx-auto h-40 
               w-full ease-in duration-300 object-cover rounded-lg transition group-hover:scale-125'
         />
-
+        <p className='absolute m-2 left-4 top-4 text-white'>
+          {!stock  && (
+            
+            <span className=' px-3 py-1 font-bold bg-red-600 rounded'>
+              Stock Out
+            </span>
+          )}
+        </p>
         <Button
           onClick={openModal}
           dataBSPlacement='right'
@@ -74,7 +89,11 @@ const ProductsCart = ({ product, handleAddToCart }) => {
             </div>
 
             <div>
-              <Button onClick={() => handleAddToCart(_id)} disabled={!stock}>
+              <Button
+                bg={!stock && 'bg-red-700'}
+                onClick={() => handleAddToCart(_id, setExistItem)}
+                disabled={!stock}
+              >
                 <GrCart />
               </Button>
             </div>
@@ -90,13 +109,9 @@ const ProductsCart = ({ product, handleAddToCart }) => {
         <Modal isOpen={isOpen} closeModal={closeModal}>
           {/* <div className='my-4 grid md:grid-cols-1 lg:grid-cols-2'> */}
           <div className='relative'>
-            <button
-              onClick={() => setIsOpen(false)}
-              id=''
-              className='absolute md:-pt-24 lg:-pt-6 -m-5 right-0 -top-0 text-white bg-red-400 hover:bg-red-500 px-2 py-2 rounded-full w-8 h-8 flex justify-center items-center'
-            >
+            <CloseButton onClick={() => setIsOpen(false)}>
               <AiOutlineClose />
-            </button>
+            </CloseButton>
             <div className=' flex md:flex-col lg:flex-row justify-between gap-2'>
               <div className='lg:basis-1/2'>
                 <div className='relative'>
@@ -151,11 +166,16 @@ const ProductsCart = ({ product, handleAddToCart }) => {
                 </div>
                 <div>
                   <Button
-                    onClick={() => handleAddToCart(_id)}
-                    disabled={!stock}
+                    bg={!stock && 'bg-red-700'}
+                    onClick={() => handleAddToCart(_id, setExistItem)}
+                    disabled={!stock || existItem}
                     width={'w-full'}
                   >
-                    Add to Cart
+                    {stock
+                      ? existItem
+                        ? 'Already added'
+                        : 'Add to Cart'
+                      : 'Stock out'}
                   </Button>
                 </div>
               </div>

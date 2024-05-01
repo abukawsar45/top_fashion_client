@@ -1,40 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ProductsCart from '../ProductsCart/ProductsCart';
 import ProductsLoading from '../ProductsLoading/ProductsLoading';
 import useFetch from '../../hooks/useFetch';
-import { addToBookingDB, getBookingCart } from '../../utilities/fakeDB/fakeDb';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { MyContext } from '../../providers/MyProvider';
 
 const Products = () => {
+  const {
+    userData: { addToBookingDB, getBookingCart },
+  } = useContext(MyContext);
   const { data: productsData, loading } = useFetch('/allProducts');
+
   const [sliceValue, setSliceValue] = useState(12);
   let [storeCart, setStoreCart] = useState(getBookingCart() || {});
 
-  
-  useEffect(() => {
-    
-  }, [storeCart]);
 
-  
-  const handleAddToCart = (id) => {
+  const handleAddToCart = (id, setExistItem) => {
     addToBookingDB(id);
 
-      const exists = Object.keys(storeCart).includes(id);
-      console.log({exists})
-      if (exists) {
-        return toast.error('Already added this item!');
-    } 
-      else
-      {
-        toast.success('Product added to cart!');
-    }
+    const exists = Object.keys(storeCart).includes(id);
+    console.log({ exists });
+   if (exists) {
+     return toast.error('Already added this item!');
+   } else {
+     setExistItem(true);
+     toast.success('Product added to cart!');
+   }
     const addedProduct = getBookingCart();
     setStoreCart(addedProduct);
-
   };
-  
+
   return (
     <div>
       {/* Same as */}
@@ -49,6 +45,7 @@ const Products = () => {
               handleAddToCart={handleAddToCart}
               key={product._id}
               product={product}
+            
             />
           ))}
         </div>

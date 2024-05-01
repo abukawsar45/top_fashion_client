@@ -19,7 +19,7 @@ const SideModal = ({ isOpen, closeModal, title, children }) => {
           </Transition.Child>
 
           <div className='fixed inset-0 overflow-y-auto'>
-            <div className=' md:pt-24 lg:pt-24 overflow-hidden h-full w-full  lg:mx-auto  2xl:mx-auto max-w-[1800px] flex justify-end '>
+            <div className=' pt-24 lg:pt-28 overflow-hidden h-full w-full  lg:mx-auto  2xl:mx-auto max-w-[1800px] flex justify-end '>
               <Transition.Child
                 as={Fragment}
                 enter='ease-out duration-300'
@@ -29,7 +29,7 @@ const SideModal = ({ isOpen, closeModal, title, children }) => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <Dialog.Panel className=' w-4/12 bg-white flex h-full align-middle shadow-xl transition-all'>
+                <Dialog.Panel className='mx-auto bg-white flex h-5/6 align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
                     className='text-lg font-medium leading-6 text-gray-900'

@@ -9,7 +9,7 @@ const SocialLoginWithGoogle = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
 
-  const { loginWithGoogle } = useContext(MyContext);
+  const { authInfo:{loginWithGoogle} } = useContext(MyContext);
 
   const handleGoogleLogin = () => {
     loginWithGoogle()
