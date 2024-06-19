@@ -20,7 +20,7 @@ const Products = () => {
     addToBookingDB(id);
 
     const exists = Object.keys(storeCart).includes(id);
-    console.log({ exists });
+    // console.log({ exists });
    if (exists) {
      return toast.error('Already added this item!');
    } else {

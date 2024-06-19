@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import AddedProducts from '../components/AddedProducts/AddedProducts';
 
 const AddedItems = () => {
 
@@ -7,7 +8,7 @@ const AddedItems = () => {
   },[])
   return (
     <div>
-      Added i
+      <AddedProducts/>
     </div>
   );
 };

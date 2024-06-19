@@ -45,12 +45,12 @@ const ProductsCart = ({ product, handleAddToCart }) => {
 
   useEffect(() => {
       const exists = Object.keys(storeCart).includes(_id);
-    console.log({ exists });
+    // console.log({ exists });
     setExistItem(exists);
   },[])
 
   return (
-    <div className='my-2 w-full h-full bg-white shadow-xl flex flex-col rounded-xl shadow-indigo-200 duration-100 group hover:shadow-lime-500'>
+    <div className='my-2 w-full h-full bg-white shadow-md flex flex-col rounded-xl duration-100 group hover:shadow-gray-300'>
       <div className='relative text-sm flex gap-2 items-center my-4 overflow-hidden  '>
         <img
           src={img}

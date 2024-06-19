@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const DataStore = () => {
+
+  const [loading, setLoading] = useState(false);
+
   
   // ___________Local-Storage-Start___________
   //get booking db
   const getBookingCart = () => {
+    setLoading(true)
     let bookingCart = {};
-
+    
     const storeCart = localStorage.getItem('booking-cart');
     if (storeCart) {
       bookingCart = JSON.parse(storeCart);
     }
+    setLoading(false)
     return bookingCart;
   };
 
   // add to db
   const addToBookingDB = (id, operation) => {
+    console.log(id, operation)
     let bookingCart = getBookingCart();
     // add quantity
     const quantity = bookingCart[id];
@@ -32,11 +38,13 @@ const DataStore = () => {
   };
 
   // remove to db
-  const removeToBookingDB = (id) => {
+  const removeFromBookingDB = (id) => {
+    setLoading(true);
     const bookingCart = getBookingCart();
     if (id in bookingCart) {
       delete bookingCart[id];
       localStorage.setItem('booking-cart', JSON.stringify(bookingCart));
+      setLoading(false);
     }
   };
 
@@ -51,11 +59,12 @@ const DataStore = () => {
  
 
   const userData = {
+    loading,
+    setLoading,
     addToBookingDB,
-    removeToBookingDB,
+    removeFromBookingDB,
     getBookingCart,
     deleteBookingCart,
-    
   };
   return userData;
 };

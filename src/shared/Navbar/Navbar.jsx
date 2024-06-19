@@ -9,25 +9,49 @@ import SideModal from '../../components/Modal/SideModal';
 import CloseButton from '../../components/Button/CloseButton';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
+import useFetch from '../../hooks/useFetch';
+
 
 const Navbar = () => {
   const [showNavLinks, setShowNavLinks] = useState(false);
   const [isShowAddedModal, setIsShowAddedModal] = useState(false);
   // console.log(showNavLinks)
+  const { authInfo, userData } = useContext(MyContext);
+  const [searchValue, setSearchValue] = useState('shoes');
+  const { data, loading } = useFetch(`/productsname/${searchValue}`);
   const {
-    authInfo:{signUpWithEmail,
+    userData: {
+      loading: localLoading,
+      setLoading: setLocalLoading,
+      addToBookingDB,
+      getBookingCart,
+      removeFromBookingDB,
+      
+    },
+  } = useContext(MyContext);
+    
+  const storedCart = getBookingCart();
+  const selectedCount = Object.keys(storedCart).length;
+  console.log(Object.keys(storedCart).length);
+
+  const {
+    signUpWithEmail,
     loginWithGoogle,
     updateUserProfile,
     user,
     setUser,
-    logout,}
-  } = useContext(MyContext);
+    logout,
+  } = authInfo;
 
-  console.log(user);
+  console.log(localLoading);
 
   const handleSearchBox = (e) => {
     e.preventDefault();
-    console.log('handleSearchBox clicked');
+    const sValue = e?.target?.search?.value;
+    console.log(sValue);
+    setSearchValue(sValue);
+    console.log(data);
+    setData(data);
   };
 
   const showAddedCart = () => {
@@ -71,10 +95,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div
-      data-aos='fade-up'
-      className='bg-red-900 bg-opacity-10 sticky top-0 z-20  py-1 md:py-2 transition-colors duration-300 ease-in bg-transparent  backdrop-blur'
-    >
+    <div className='bg-red-900 bg-opacity-10 sticky top-0 z-20  py-1 md:py-2 transition-colors duration-300 ease-in bg-transparent  backdrop-blur'>
       <div
         data-aos='fade-down '
         className='w-full bg-blend-multiply flex justify-between lg:items-center bg-base-100 text-font'
@@ -156,27 +177,29 @@ const Navbar = () => {
               <div className='hidden lg:block'>Search</div>
             </button>
           </form>
-          <div
-            className='relative lg:hidden ml-4 mr-4 bg- cursor-pointer group hover:text-blue-500'
-          > <Link to='/addedItems' >
-            <IoBagCheckOutline className='font-bold text-2xl ' />
-            <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
-              1
-            </p>
-            </Link>
+          <div className='relative lg:hidden ml-4 mr-4 bg- cursor-pointer group hover:text-blue-500'>
+            {' '}
+             {!localLoading && selectedCount > 0 && (
+              <Link to='/addedItems'>
+                <IoBagCheckOutline className='font-bold text-2xl ' />
+                <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
+                  {selectedCount}
+                </p>
+              </Link>
+            )}
           </div>
         </div>
         <div className=' hidden lg:flex items-center'>
           <ul className='flex flex-col lg:flex-row gap-8 px-1'>{navData}</ul>
-          <div
-            className='relative ml-4 mr-1 bg- cursor-pointer group hover:text-blue-500'
-          >
-           <Link to='/addedItems' >
-            <IoBagCheckOutline className='font-bold text-2xl ' />
-            <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
-              1
-              </p>
+          <div className='relative ml-4 mr-1 bg- cursor-pointer group hover:text-blue-500'>
+            {!localLoading && selectedCount > 0 && (
+              <Link to='/addedItems'>
+                <IoBagCheckOutline className='font-bold text-2xl ' />
+                <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
+                  {selectedCount}
+                </p>
               </Link>
+            )}
           </div>
         </div>
       </div>
