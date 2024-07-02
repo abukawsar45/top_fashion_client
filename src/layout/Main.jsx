@@ -6,6 +6,8 @@ import TopNavbar from '../shared/Navbar/TopNavbar';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import 'react-phone-input-2/lib/style.css';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 
 const Main = () => {
@@ -18,7 +20,8 @@ const Main = () => {
     
       <TopNavbar />
       <Navbar />
-      <div className=' min-h-[90vh] pt-8 '>
+      {/* <div className='  '> */}
+      <div className=' md:min-h-[20vh] lg:min-h-[] lg:pt-8 '>
         <Outlet />
       </div>
       <Footer />

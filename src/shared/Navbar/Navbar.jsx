@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import ActiveLink from '../../utilities/ActiveLink';
 import { MyContext } from '../../providers/MyProvider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import tf from '../../assets/tf.png';
 import './Navbar.css';
 import { IoBagCheckOutline } from 'react-icons/io5';
@@ -9,15 +9,17 @@ import SideModal from '../../components/Modal/SideModal';
 import CloseButton from '../../components/Button/CloseButton';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
+import { TfiClose } from 'react-icons/tfi';
 import useFetch from '../../hooks/useFetch';
 
 
 const Navbar = () => {
   const [showNavLinks, setShowNavLinks] = useState(false);
   const [isShowAddedModal, setIsShowAddedModal] = useState(false);
+  const navigate = useNavigate();
   // console.log(showNavLinks)
   const { authInfo, userData } = useContext(MyContext);
-  const [searchValue, setSearchValue] = useState('shoes');
+  const [searchValue, setSearchValue] = useState('');
   const { data, loading } = useFetch(`/productsname/${searchValue}`);
   const {
     userData: {
@@ -40,10 +42,10 @@ const Navbar = () => {
     updateUserProfile,
     user,
     setUser,
-    logout,
+    logout
   } = authInfo;
 
-  console.log(localLoading);
+  console.log(showNavLinks);
 
   const handleSearchBox = (e) => {
     e.preventDefault();
@@ -51,7 +53,10 @@ const Navbar = () => {
     console.log(sValue);
     setSearchValue(sValue);
     console.log(data);
-    setData(data);
+    
+    navigate(`search/${sValue}` , {state: {data, loading}})
+    // setData(data);
+    setSearchValue ('');
   };
 
   const showAddedCart = () => {
@@ -65,11 +70,12 @@ const Navbar = () => {
   const navData = (
     <>
       <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/aboutUs'>About Us</ActiveLink>
+        <ActiveLink to='/'>Home</ActiveLink>
       </li>
       <li onClick={() => setShowNavLinks(!showNavLinks)}>
-        <ActiveLink to='/blog'>Blog</ActiveLink>
+        <ActiveLink to='/aboutUs'>About Us</ActiveLink>
       </li>
+     
       {user && (
         <li onClick={() => setShowNavLinks(!showNavLinks)}>
           <button
@@ -95,30 +101,35 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className='bg-red-900 bg-opacity-10 sticky top-0 z-20  py-1 md:py-2 transition-colors duration-300 ease-in bg-transparent  backdrop-blur'>
-      <div
-        data-aos='fade-down '
-        className='w-full bg-blend-multiply flex justify-between lg:items-center bg-base-100 text-font'
-      >
+    <div className='bg-blue-400 sticky top-0 z-20  py-1 md:py-2 transition-colors duration-300 bg-transparent  backdrop-blur'>
+      <div className='w-full bg-blend-multiply flex justify-between lg:items-center bg-base-100 text-font'>
         <div className='ml-1 flex gap-4 lg:hidden'>
           <div className=''>
             {' '}
             <label tabIndex={0} className=' lg:hidden '>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-10 w-10  p-2 bg-gray-400 hover:bg-gray-600 rounded-full '
-                onClick={() => setShowNavLinks(!showNavLinks)}
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M4 6h16M4 12h8m-8 6h16'
-                />
-              </svg>
+              <div onClick={() => setShowNavLinks(!showNavLinks)}>
+                {' '}
+                {!showNavLinks ? (
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-10 w-10  p-2 bg-gray-400 hover:bg-gray-600 rounded-full '
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M4 6h16M4 12h8m-8 6h16'
+                    />
+                  </svg>
+                ) : (
+                  <p className='bg-red-400 hover:bg-red-500 rounded-full p-2 text-white w-8 h-8'>
+                    <TfiClose />
+                  </p>
+                )}
+              </div>{' '}
             </label>
             <ul
               tabIndex={0}
@@ -156,14 +167,13 @@ const Navbar = () => {
 
         <div className='flex  gap-1 '>
           {' '}
-          <form
-            onSubmit={handleSearchBox}
-            className='flex h-8 rounded-md overflow-hidden'
-          >
+          <form onSubmit={handleSearchBox} className='flex h-8 rounded-md '>
             <input
               type='text'
               placeholder='products name'
               required
+              value={searchValue} 
+              onChange={(e) => setSearchValue(e.target.value)}
               name='search'
               className=' border-r-0 rounded-md rounded-r-none text-sm px-2 py-1  w-10/12 border-2 border-cyan-500 focus:outline-none focus:border-blue-500'
             />
@@ -171,35 +181,30 @@ const Navbar = () => {
               type='submit'
               className='rounded-md rounded-l-none text-sm px-2 py-1  border-2 border-l-0 bg-emerald-400 hover:bg-emerald-500 hover:text-white border-green-500  focus:outline-none text-white sm:px-4  rounded-r-md'
             >
-              <span className='lg:hidden'>
+              <span className='lg:text-xl'>
                 <FiSearch />
               </span>{' '}
-              <div className='hidden lg:block'>Search</div>
             </button>
           </form>
           <div className='relative lg:hidden ml-4 mr-4 bg- cursor-pointer group hover:text-blue-500'>
             {' '}
-             {!localLoading && selectedCount > 0 && (
-              <Link to='/addedItems'>
-                <IoBagCheckOutline className='font-bold text-2xl ' />
-                <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
-                  {selectedCount}
-                </p>
-              </Link>
-            )}
+            <Link to='/addedItems'>
+              <IoBagCheckOutline className='font-bold text-2xl ' />
+              <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
+                +
+              </p>
+            </Link>
           </div>
         </div>
         <div className=' hidden lg:flex items-center'>
           <ul className='flex flex-col lg:flex-row gap-8 px-1'>{navData}</ul>
           <div className='relative ml-4 mr-1 bg- cursor-pointer group hover:text-blue-500'>
-            {!localLoading && selectedCount > 0 && (
-              <Link to='/addedItems'>
-                <IoBagCheckOutline className='font-bold text-2xl ' />
-                <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
-                  {selectedCount}
-                </p>
-              </Link>
-            )}
+            <Link to='/addedItems'>
+              <IoBagCheckOutline className='font-bold text-2xl ' />
+              <p className='absolute top-0 -right-2 text-xs bg-violet-600 group-hover:bg-blue-600 w-4 h-4 rounded-full flex justify-center items-center text-white'>
+                +
+              </p>
+            </Link>
           </div>
         </div>
       </div>

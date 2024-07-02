@@ -4,7 +4,9 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import AddedItems from '../pages/AddedItems';
+import AboutUs from '../pages/AboutUs';
 import ProductDetails from '../components/ProductDetails/ProductDetails';
+import Search from '../pages/Search';
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +19,10 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: '/search/:productName',
+        element: <Search/> ,
+      },
+      {
         path: '/login',
         element: <Login />,
       },
@@ -26,7 +32,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/aboutUs',
-        element: <p>about us </p>,
+        element: <AboutUs/> ,
       },
       {
         path: '/blog',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GrCart } from 'react-icons/gr';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
@@ -8,14 +8,19 @@ import Div from '../Div/Div';
 import { addToBookingDB, getBookingCart } from '../../utilities/fakeDB/fakeDb';
 import { AiOutlineClose } from 'react-icons/ai';
 import CloseButton from '../Button/CloseButton';
-        
 
-const ProductsCart = ({ product, handleAddToCart }) => {
+const ProductsCart = ({ product,productName, handleAddToCart }) => {
+  const location = useLocation();
+
+  // const {productName} = useParams();
+  // const search = params.get('search');
+  // const productName = params.get('productName');
+  // console.log(productName);
+  
   let [isOpen, setIsOpen] = useState(false);
   let [isCollapse, setIsCollapse] = useState(false);
-  
-  let [storeCart, setStoreCart] = useState(getBookingCart() || {});
 
+  let [storeCart, setStoreCart] = useState(getBookingCart() || {});
 
   const [existItem, setExistItem] = useState(false);
 
@@ -34,7 +39,6 @@ const ProductsCart = ({ product, handleAddToCart }) => {
   } = product || {};
   // console.log(product);
 
-
   const openModal = () => {
     setIsOpen(true);
     console.log({ product });
@@ -44,10 +48,10 @@ const ProductsCart = ({ product, handleAddToCart }) => {
   };
 
   useEffect(() => {
-      const exists = Object.keys(storeCart).includes(_id);
+    const exists = Object.keys(storeCart).includes(_id);
     // console.log({ exists });
     setExistItem(exists);
-  },[])
+  }, []);
 
   return (
     <div className='my-2 w-full h-full bg-white shadow-md flex flex-col rounded-xl duration-100 group hover:shadow-gray-300'>
@@ -59,8 +63,7 @@ const ProductsCart = ({ product, handleAddToCart }) => {
               w-full ease-in duration-300 object-cover rounded-lg transition group-hover:scale-125'
         />
         <p className='absolute m-2 left-4 top-4 text-white'>
-          {!stock  && (
-            
+          {!stock && (
             <span className=' px-3 py-1 font-bold bg-red-600 rounded'>
               Stock Out
             </span>
@@ -98,9 +101,21 @@ const ProductsCart = ({ product, handleAddToCart }) => {
               </Button>
             </div>
             <div>
-              <Link to={`ProductDetails/${_id}`}>
-                <Button text={'More info'} />
-              </Link>
+              {location ? (
+                <Link
+                  to={
+                    productName
+                      ? `../../ProductDetails/${_id}`
+                      : `ProductDetails/${_id}`
+                  }
+                >
+                  <Button text='More info' />
+                </Link>
+              ) : (
+                <Link to={`ProductDetails/${_id}`}>
+                  <Button text='More info' />
+                </Link>
+              )}
             </div>
           </div>
         </div>

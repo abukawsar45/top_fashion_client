@@ -6,14 +6,13 @@
   font-style: normal;
 }
 
-
-
 .logo-text {
-    background-image: url(../../assets/nature.jpeg);
-    background-size: contain; 
-    background-clip: text; 
-    -webkit-background-clip: text; 
-    /* color: transparent;  */
-    opacity: 80%;
-    
+  background-image: url(../../assets/nature.jpeg);
+  background-size: contain;
+  background-clip: text;
+  -webkit-background-clip: text;
+  /* color: transparent;  */
+  opacity: 80%;
 }
+
+

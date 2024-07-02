@@ -35,7 +35,10 @@ const TopNavbar = () => {
             <div className='text-white text-xs'>
               <FaRegEnvelope />{' '}
             </div>
-            <a href='mailto:kawsar1146236@gmail.com' className='text-white text-xs'>
+            <a
+              href='mailto:kawsar1146236@gmail.com'
+              className='text-white text-xs'
+            >
               kawsar1146236@gmail.com
             </a>
           </div>
@@ -64,7 +67,10 @@ const TopNavbar = () => {
             </Link>
           </div>
           <div className='text-white text-sm'>
-            <Link target='_blank' to='/https://www.whatsapp.com/'>
+            <Link
+              target='_blank'
+              to='https://api.whatsapp.com/send?phone=8801609804039&text=Hi%20Top%20Fashions%20owner,%20I%20just%20visited%20your%20website.%20May%20I%20know%20more?'
+            >
               <FaWhatsapp />
             </Link>
           </div>
