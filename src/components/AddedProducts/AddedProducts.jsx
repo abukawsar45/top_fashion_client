@@ -21,10 +21,7 @@ const AddedProducts = () => {
     },
   } = useContext(MyContext);
 
- 
   let newCart = [];
-
-
 
   // handle product quantity
   const handleQuantity = (direction, product) => {
@@ -33,17 +30,16 @@ const AddedProducts = () => {
       product.quantity += 1;
     } else if (direction === 'decrement') {
       if (product.quantity > 1) {
-         product.quantity -= 1;
+        product.quantity -= 1;
       } else {
-        return; 
+        return;
       }
     }
 
     const updatedCart = cart.map((item) => {
-      console.log(item)
-      if (item._id === product._id)
-      {
-        console.log('yes')
+      console.log(item);
+      if (item._id === product._id) {
+        console.log('yes');
         return { ...item, quantity: product.quantity };
       }
       return item;
@@ -55,39 +51,35 @@ const AddedProducts = () => {
 
   // remove products
   const handleRemoveFromCart = (id) => {
-    console.log(id)
+    console.log(id);
     const remaining = cart.filter((product) => product._id !== id);
     setCart(remaining);
     removeFromBookingDB(id);
   };
 
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const storedCart = getBookingCart();
-        
+
         setLoadingData(true);
         const orderData = Object.keys(storedCart).map((id) => {
           const addedProduct = allData?.find((pd) => pd._id === id);
           // console.log({ addedProduct });
           if (addedProduct) {
-            
             const quantity = storedCart[id];
             // console.log({ quantity });
             addedProduct.quantity = quantity;
             // console.log({ addedProduct });
             return addedProduct;
           }
-          
+
           return null;
         });
 
         // console.log({ orderData });
         // console.log(orderData);
-        if(orderData)
-        {
-          
+        if (orderData) {
           setCart(orderData.filter(Boolean));
           setLoadingData(false);
         }
@@ -102,10 +94,7 @@ const AddedProducts = () => {
   useEffect(() => {
     setAllData(data);
     setProductsData(data);
-    
   }, [loading]);
-
-   
 
   let totalPrice = 0;
   let totalShipping = 0;
@@ -129,41 +118,39 @@ const AddedProducts = () => {
       <div className='p-4 flex flex-col'>
         {loadingData ? (
           <p>Loadingggg..</p>
-        ) : (
-          <>
+        ) : cart.length > 0 ? (
+          <div>
             {' '}
             <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
               <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                 <div className='overflow-hidden'>
                   <table className='min-w-full text-left text-sm font-light'>
                     <thead className='border-b font-medium dark:border-neutral-500'>
-                    <tr>
-                      <th scope='col' className='px-6 py-2'>
-                        #
-                      </th>
-                      <th scope='col' className='px-6 py-2'>
-                        Image
-                      </th>
-                      <th scope='col' className='px-6 py-2'>
-                        Name
-                      </th>
-                      <th scope='col' className='px-6 py-2'>
-                        
-                      </th>
-                      <th scope='col' className='px-6 py-2'>
-                        Price
-                      </th>
-                      <th scope='col' className='text-center px-6 py-2'>
-                        Quantity
-                      </th>
-                      <th scope='col' className='px-6 py-2'>
-                        Total
-                      </th>
-                      <th scope='col' className='px-6 py-2'>
-                        Remove
-                      </th>
-                    </tr>
-                  </thead> 
+                      <tr>
+                        <th scope='col' className='px-6 py-2'>
+                          #
+                        </th>
+                        <th scope='col' className='px-6 py-2'>
+                          Image
+                        </th>
+                        <th scope='col' className='px-6 py-2'>
+                          Name
+                        </th>
+                        <th scope='col' className='px-6 py-2'></th>
+                        <th scope='col' className='px-6 py-2'>
+                          Price
+                        </th>
+                        <th scope='col' className='text-center px-6 py-2'>
+                          Quantity
+                        </th>
+                        <th scope='col' className='px-6 py-2'>
+                          Total
+                        </th>
+                        <th scope='col' className='px-6 py-2'>
+                          Remove
+                        </th>
+                      </tr>
+                    </thead>
                     <tbody>
                       {cart.map((orderProduct, ind) => {
                         return (
@@ -175,13 +162,13 @@ const AddedProducts = () => {
                               <td className='whitespace-nowrap px-6 py-2 font-medium'>
                                 {ind + 1}
                               </td>
-                                <td className='whitespace-nowrap px-6 py-2 font-medium'>
-                                  <img
-                                    src={orderProduct?.img}
-                                    alt='Product-images'
-                                    className='w-8 h-8'
-                                  />
-                                </td>
+                              <td className='whitespace-nowrap px-6 py-2 font-medium'>
+                                <img
+                                  src={orderProduct?.img}
+                                  alt='Product-images'
+                                  className='w-8 h-8'
+                                />
+                              </td>
                               <td
                                 title={orderProduct?.name}
                                 className='whitespace-nowrap px-6 py-2'
@@ -283,7 +270,11 @@ const AddedProducts = () => {
                 </div>
               </div>
             </div>
-          </>
+          </div>
+        ) : (
+          <div className='flex justify-center'>
+            <h3 className='text-center '>No data has been added</h3>
+          </div>
         )}
       </div>
     </div>
