@@ -18,7 +18,7 @@ const AllinOne = () => {
   };
 
   return (
-    <div className='my-4 md:my-6 lg:my-8 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 lg:gap-8 '>
+    <div className='my-4 md:my-6 lg:mt-8 lg:mb-16 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 lg:gap-8 '>
       <div className='flex flex-col justify-center w-full  '>
         <h3 className='text-xl md:text-3xl lg:text-6xl headLine-font'>
           Here will you{' '}

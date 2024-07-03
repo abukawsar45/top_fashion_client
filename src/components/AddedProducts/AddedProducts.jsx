@@ -25,7 +25,7 @@ const AddedProducts = () => {
 
   // handle product quantity
   const handleQuantity = (direction, product) => {
-    console.log(product);
+    // console.log(product);
     if (direction === 'increment') {
       product.quantity += 1;
     } else if (direction === 'decrement') {
@@ -37,9 +37,9 @@ const AddedProducts = () => {
     }
 
     const updatedCart = cart.map((item) => {
-      console.log(item);
+      // console.log(item);
       if (item._id === product._id) {
-        console.log('yes');
+        // console.log('yes');
         return { ...item, quantity: product.quantity };
       }
       return item;
@@ -51,7 +51,7 @@ const AddedProducts = () => {
 
   // remove products
   const handleRemoveFromCart = (id) => {
-    console.log(id);
+    // console.log(id);
     const remaining = cart.filter((product) => product._id !== id);
     setCart(remaining);
     removeFromBookingDB(id);

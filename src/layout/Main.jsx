@@ -16,12 +16,12 @@ const Main = () => {
   }, []);
 
   return (
-    <div className=' sm:mx-1 md:mx-2 lg:mx-4 2xl:mx-auto max-w-[1800px] font-nunito'>
+    <div className='mx-2 md:mx-3 lg:mx-4 2xl:mx-auto max-w-[1800px] font-nunito'>
     
       <TopNavbar />
       <Navbar />
       {/* <div className='  '> */}
-      <div className=' md:min-h-[20vh] lg:min-h-[] lg:pt-8 '>
+      <div className=' md:min-h-[20vh] lg:pt-8 '>
         <Outlet />
       </div>
       <Footer />

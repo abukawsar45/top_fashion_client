@@ -42,7 +42,7 @@ const Login = () => {
     user,
     setUser,}
   } = useContext(MyContext);
-  console.log(user);
+  // console.log(user);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ const Login = () => {
           setShowOTP(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           toast.error(error?.message );
           //  toast.error('Something is wrong!');
           setVerifyLoading(false);
@@ -116,21 +116,21 @@ const Login = () => {
   };
 
   const onOTPVerify = () => {
-    console.log('otp');
+    // console.log('otp');
     setVerifyLoading(true);
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
-        console.log(res);
+        // console.log(res);
         updateUserProfile(userName, photoURL).then(() => {
-          console.log(userName, photoURL);
+          // console.log(userName, photoURL);
         });
         toast.success('Registration Successful');
         setVerifyLoading(false);
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         // toast.error('Sorry, your OTP is incorrect!');
              toast.error(error?.message);
         setVerifyLoading(false);

@@ -51,7 +51,7 @@ const Register = () => {
   const location = useLocation();
   const from = location.state?.form?.pathname || '/';
 
-  console.log(userName, user);
+  // console.log(userName, user);
 
   if (user) {
     navigate('/', { replace: true });
@@ -97,7 +97,7 @@ const Register = () => {
           setShowOTP(true);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           toast.error(error?.message);
           setVerifyLoading(false);
         });
@@ -114,7 +114,7 @@ const Register = () => {
             setUser({ ...user, displayName: name, photoURL: photo });
             updateUserProfile(name, photo);
             toast.success('Registration Successful');
-            console.log(updateUserProfile);
+            // console.log(updateUserProfile);
             navigate(from);
           })
           .catch((error) => {
@@ -127,21 +127,21 @@ const Register = () => {
   };
 
   const onOTPVerify = () => {
-    console.log('otp');
+    // console.log('otp');
     setVerifyLoading(true);
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
-        console.log(res);
+        // console.log(res);
         updateUserProfile(userName, photoURL).then(() => {
-          console.log(userName, photoURL);
+          // console.log(userName, photoURL);
         });
         toast.success('Registration Successful');
         setVerifyLoading(false);
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         // toast.error('Sorry, your OTP is incorrect!');
              toast.error(error?.message+'!');
         setVerifyLoading(false);

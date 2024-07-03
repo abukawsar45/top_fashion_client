@@ -26,7 +26,7 @@ const ProductsLoading = () => {
       </div>
     </div>
   ));
-  console.log({ skeletons });
+  // console.log({ skeletons });
 
   return (
     <SkeletonTheme baseColor='#2a303c' highlightColor='#5c5c5c'>

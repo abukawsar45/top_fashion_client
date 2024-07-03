@@ -34,7 +34,7 @@ const Navbar = () => {
     
   const storedCart = getBookingCart();
   const selectedCount = Object.keys(storedCart).length;
-  console.log(Object.keys(storedCart).length);
+  // console.log(Object.keys(storedCart).length);
 
   const {
     signUpWithEmail,
@@ -45,14 +45,14 @@ const Navbar = () => {
     logout
   } = authInfo;
 
-  console.log(showNavLinks);
+  // console.log(showNavLinks);
 
   const handleSearchBox = (e) => {
     e.preventDefault();
     const sValue = e?.target?.search?.value;
-    console.log(sValue);
+    // console.log(sValue);
     setSearchValue(sValue);
-    console.log(data);
+    // console.log(data);
     
     navigate(`search/${sValue}` , {state: {data, loading}})
     // setData(data);
@@ -61,7 +61,7 @@ const Navbar = () => {
 
   const showAddedCart = () => {
     setIsShowAddedModal(true);
-    console.log('showAddedCart');
+    // console.log('showAddedCart');
   };
 
   const closeIsShowAddedModal = () => {
@@ -175,7 +175,7 @@ const Navbar = () => {
               value={searchValue} 
               onChange={(e) => setSearchValue(e.target.value)}
               name='search'
-              className=' border-r-0 rounded-md rounded-r-none text-sm px-2 py-1  w-10/12 border-2 border-cyan-500 focus:outline-none focus:border-blue-500'
+              className=' border-r-0 rounded-md rounded-r-none text-sm px-2 py-1  w-full border-2 border-cyan-500 focus:outline-none focus:border-blue-500'
             />
             <button
               type='submit'

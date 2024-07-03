@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 const TopNavbar = () => {
   return (
-    <div data-aos='fade-down' className='bg-blue-500 '>
+    <div data-aos='fade-down' className='bg-gray-500 '>
       <div className='hidden w-[95%] mx-auto lg:flex justify-between'>
         {/* Contact section */}
         <div className='flex space-x-5 py-2'>
@@ -69,7 +69,7 @@ const TopNavbar = () => {
           <div className='text-white text-sm'>
             <Link
               target='_blank'
-              to='https://api.whatsapp.com/send?phone=8801609804039&text=Hi%20Top%20Fashions%20owner,%20I%20just%20visited%20your%20website.%20May%20I%20know%20more?'
+              to='https://api.whatsapp.com/send?phone=8801581629271&text=Hi%20Top%20Fashions%20owner,%20May%20I%20know%20more?'
             >
               <FaWhatsapp />
             </Link>

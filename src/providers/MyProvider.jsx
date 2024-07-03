@@ -9,7 +9,7 @@ const MyProvider = ({ children }) => {
   const userData = DataStore();
 
   const myAllOperation = {authInfo, userData}
-  console.log(myAllOperation);
+  // console.log(myAllOperation);
 
   return <MyContext.Provider value={myAllOperation}>{children}</MyContext.Provider>;
 };

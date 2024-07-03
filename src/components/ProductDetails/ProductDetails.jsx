@@ -18,17 +18,17 @@ const ProductDetails = () => {
 
   let [storeCart, setStoreCart] = useState(getBookingCart() || {});
   const productData = useLoaderData();
-  console.log(productData);
+  // console.log(productData);
 
   const { id: searchId } = useParams();
-  console.log(existItem);
+  // console.log(existItem);
 
   const job = {};
 
     const handleAddToCart = (id) => {
       addToBookingDB(id);
       const exists = Object.keys(storeCart).includes(id);
-      console.log({ exists });
+      // console.log({ exists });
       if (exists)
       {
         setExistItem(true);
@@ -66,7 +66,7 @@ const ProductDetails = () => {
     <div>
       <ToastContainer />
       {/* <div className='my-4 grid md:grid-cols-1 lg:grid-cols-2'> */}
-      <div className=' flex flex-col lg:flex-row justify-between gap-2'>
+      <div className=' my-2 md:my-6 lg:mb-12 flex flex-col lg:flex-row justify-between gap-2'>
         <div className='lg:basis-1/2'>
           <div className='relative'>
             <img

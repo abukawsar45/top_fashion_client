@@ -41,7 +41,7 @@ const ProductsCart = ({ product,productName, handleAddToCart }) => {
 
   const openModal = () => {
     setIsOpen(true);
-    console.log({ product });
+    // console.log({ product });
   };
   const closeModal = () => {
     setIsOpen(false);
@@ -93,7 +93,7 @@ const ProductsCart = ({ product,productName, handleAddToCart }) => {
 
             <div>
               <Button
-                bg={!stock && 'bg-red-700'}
+                bg={!stock && 'bg-gray-400'}
                 onClick={() => handleAddToCart(_id, setExistItem)}
                 disabled={!stock}
               >
@@ -127,7 +127,7 @@ const ProductsCart = ({ product,productName, handleAddToCart }) => {
             <CloseButton onClick={() => setIsOpen(false)}>
               <AiOutlineClose />
             </CloseButton>
-            <div className=' flex md:flex-col lg:flex-row justify-between gap-2'>
+            <div className=' flex md:flex-col lg:flex-row justify-between gap-2  '>
               <div className='lg:basis-1/2'>
                 <div className='relative'>
                   <img

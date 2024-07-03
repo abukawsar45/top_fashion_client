@@ -13,7 +13,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <div className='bg-gray-600 text-white mt-4 md:mt-8 lg:mt-32 px-2 md:px-4 lg:px-12'>
+    <div className='bg-gray-600 text-white  px-2 md:px-4 lg:px-12'>
       <footer className='container   py-2 md:py-4 lg:py-9'>
         <div>
           <div className='grid grid-cols-1 mt-4 md:mt-0 md:grid-cols-3 lg:grid-cols-7 gap-2 md:gap-8 lg:gap-8 '>
@@ -105,7 +105,7 @@ const Footer = () => {
           </div>
         </div>
         <hr className='border-t border-white my-3 md:my-4 lg:my-8 ' />
-        <div className='w-full flex justify-between items-center mt-4'>
+        <div className='w-full flex flex-col  md:flex-row md:justify-between md:items-center gap-3 mt-4'>
           <div>
             <p className='text-sm'>Dhaka 1216, Bangladesh</p>
           </div>
