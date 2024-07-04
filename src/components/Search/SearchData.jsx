@@ -37,7 +37,7 @@ const SearchData = () => {
   };
 
   return (
-    <div>
+    <div className='mb-4 md:mb-8 lg:mb-16' >
       {/* Same as */}
       <ToastContainer />
       <div>
